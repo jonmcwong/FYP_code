@@ -1,0 +1,8 @@
+logs/*.txt
+__pycache__/*
+.ipynb_checkpoints/*
+mandubian/*.pth
+mandubian/runs/
+mandubian/checkpoints/
+mandubian/.ipynb_checkpoints/
+mandubian/__pycache__/
