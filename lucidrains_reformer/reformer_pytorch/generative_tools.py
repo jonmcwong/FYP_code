@@ -98,7 +98,7 @@ class TrainingWrapper(nn.Module):
             xo = pad(list(map(lambda t: t[1:], x)))
 
         out = self.net(xi, **kwargs)
-
+        print("generative_tools.py: line 101: shape of encoder output: ", torch.Size(out))
         # ignore loss from pad tokens which have index of "ignore_index" = 0
         loss = F.cross_entropy(out.transpose(1, 2), xo, ignore_index = self.ignore_index)
         return loss
