@@ -4,40 +4,52 @@ import copy
 import torch
 import glob
 
-            
-def rotating_save_checkpoint(state, prefix, path="./checkpoints", nb=5):    
+
+# keeps the top 5 best models.
+def rotating_save_checkpoint(state, prefix, path="./checkpoints", nb=5, best=False):
     if not os.path.isdir(path):
         os.makedirs(path)
     filenames = []
     first_empty = None
-    best_filename = Path(path) / f"{prefix}_best.pth"
-    torch.save(state, best_filename)
+    # best_filename = Path(path) / f"{prefix}_best.pth"
+
+    # # # save latest as best 
+
+    # torch.save(state, best_filename)
+
+    # # save checkpoint with other top n as n-1
     for i in range(nb):
         filename = Path(path) / f"{prefix}_{i}.pth"
+
+        # set first empty to the first empty file
         if not os.path.isfile(filename) and first_empty is None:
             first_empty = filename
         filenames.append(filename)
     
+    # if there was an emtpy file name
     if first_empty is not None:
         torch.save(state, first_empty)
     else:
         first = filenames[0]
         os.remove(first)
+
+        # shift every thing down
         for filename in filenames[1:]:
             os.rename(filename, first)
             first = filename
+        # save latests model.
         torch.save(state, filenames[-1])
 
-def build_checkpoint(exp_name, unique_id, tpe, model, optimizer, acc, loss, epoch):
+def build_checkpoint(exp_name, unique_id, tpe, model, optimizer, val_loss, train_loss, batch):
     return {
         "exp_name": exp_name,
         "unique_id": unique_id,
         "type": tpe,
         "model": model.state_dict(),
         "optimizer": optimizer.state_dict(),
-        "acc": acc,
-        "loss": loss,
-        "epoch": epoch,
+        "val_loss": val_loss,
+        "train_loss": train_loss,
+        "batch": batch,
     }
             
 def restore_checkpoint(filename, model=None, optimizer=None):
@@ -58,8 +70,8 @@ def restore_best_checkpoint(prefix, path="./checkpoints", model=None, optimizer=
     return restore_checkpoint(filename, model, optimizer)
 
 
-def restore_best_checkpoint(exp_name, unique_id, tpe,
-                            model=None, optimizer=None, path="./checkpoints", extension="pth"):
-    filename = Path(path) / f"{exp_name}_{unique_id}_{tpe}_best.{extension}"
-    return restore_checkpoint(filename, model, optimizer)
+# def restore_best_checkpoint(exp_name, unique_id, tpe,
+#                             model=None, optimizer=None, path="./checkpoints", extension="pth"):
+#     filename = Path(path) / f"{exp_name}_{unique_id}_{tpe}_best.{extension}"
+#     return restore_checkpoint(filename, model, optimizer)
 

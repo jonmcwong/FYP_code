@@ -59,6 +59,7 @@ class ReformerEncDec(nn.Module):
 
     def generate(self, seq_in, seq_out_start, seq_len, **kwargs):
         enc_kwargs, dec_kwargs, kwargs = extract_and_set_enc_dec_kwargs(kwargs)
+        #get keys for the encoder for the whole batch first
         enc_keys = self.enc(seq_in, **enc_kwargs)
         return self.dec.generate(seq_out_start, seq_len, keys = enc_keys, **{**dec_kwargs, **kwargs})
 

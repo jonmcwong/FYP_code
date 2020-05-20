@@ -107,6 +107,7 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10., desc='training'):
 
     if i % GENERATE_EVERY == 0:
         model.eval()
+        # select all besides end token
         inp = random.choice(val_dataset)[:-1]
         prime = decode_tokens(inp)
         print(f'%s \n\n %s', (prime, '*' * 100))

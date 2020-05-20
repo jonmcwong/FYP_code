@@ -41,33 +41,42 @@ class TrainingWrapper(nn.Module):
         was_training = self.net.training
         num_dims = len(start_tokens.shape)
 
+        # if batch is 1
         if num_dims == 1:
+            #transpose? get 1 by t
             start_tokens = start_tokens[None, :]
-
+        
+        # batch, token number
         b, t = start_tokens.shape
 
         self.net.eval()
         out = start_tokens
+        # no input mask given during generate
         input_mask = kwargs.pop('input_mask', None)
 
         if input_mask is None:
+            # create mask all ones
             input_mask = torch.full_like(out, True, dtype=torch.bool, device=out.device)
 
+        # 32 times
         for _ in range(seq_len):
             x = out[:, -self.max_seq_len:]
             input_mask = input_mask[:, -self.max_seq_len:]
 
+            # get next letters for whole batch
             logits = self.net(x, input_mask=input_mask, **kwargs)[:, -1, :]
             filtered_logits = filter_logits_fn(logits, thres = filter_thres)
             probs = F.softmax(filtered_logits / temperature, dim=-1)
             sample = torch.multinomial(probs, 1)
 
             out = torch.cat((out, sample), dim=-1)
+            # pad the last dim once on one side with True
             input_mask = F.pad(input_mask, (0, 1), value=True)
 
             if eos_token is not None and (sample == eos_token).all():
                 break
 
+        # get rid of all the tokens that were used as prompt
         out = out[:, t:]
 
         if num_dims == 1:
@@ -81,6 +90,7 @@ class TrainingWrapper(nn.Module):
         # function for padding with zeros
         pad = partial(pad_sequence, batch_first = True, padding_value = self.pad_value)
 
+        # encoder exits here
         if not return_loss:
             if not isinstance(x, torch.Tensor):
                 x = pad(x)
@@ -90,7 +100,6 @@ class TrainingWrapper(nn.Module):
         if isinstance(x, torch.Tensor):
             # everything in batch excluding last token of each sequence
             xi = x[:, :-1]
-
             # everything in batch excluding first token of each sequence
             xo = x[:, 1:]
         else:
@@ -98,7 +107,10 @@ class TrainingWrapper(nn.Module):
             xo = pad(list(map(lambda t: t[1:], x)))
 
         out = self.net(xi, **kwargs)
-        print("generative_tools.py: line 101: shape of encoder output: ", torch.Size(out))
+        # print("generative_tools.py: line 101: shape of encoder output: ", out.size())
+
+
+        # only decoder reaches here
         # ignore loss from pad tokens which have index of "ignore_index" = 0
         loss = F.cross_entropy(out.transpose(1, 2), xo, ignore_index = self.ignore_index)
         return loss
