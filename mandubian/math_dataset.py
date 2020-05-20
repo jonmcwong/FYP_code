@@ -232,7 +232,9 @@ class MathDatasetManager(data.Dataset):
         for module in modules:
             self.dfs[category][module][typ].set_max_elements(max_elements)
             ds.append(self.dfs[category][module][typ])
-        return data.ConcatDataset(ds)   
+        return data.ConcatDataset(ds)
+
+    
     
     
 def question_answer_to_position_batch_collate_fn(qas):
