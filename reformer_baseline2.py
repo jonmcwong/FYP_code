@@ -211,7 +211,7 @@ model.to(device)
 
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.995), eps=1e-9)
 
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.3, patience=30, verbose=True, threshold=1e-3)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.3, patience=40, verbose=True, threshold=1e-3)
 
 # # mixed precision
 model, optimizer = amp.initialize(model, optimizer, opt_level='O2')
