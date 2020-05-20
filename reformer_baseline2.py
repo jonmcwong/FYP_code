@@ -23,7 +23,7 @@ from mandubian.math_dataset import (random_split_dataset,
     question_answer_to_mask_batch_collate_fn
 )
 import mandubian.checkpoints
-from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, restore_best_checkpoint
+from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, restore_checkpoint
 from mandubian.math_dataset import np_encode_string, np_decode_string
 import mandubian.model_process
 import mandubian.utils
@@ -211,7 +211,7 @@ model.to(device)
 
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.995), eps=1e-9)
 
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.3, patience=30, verbose=True, threshold=1e-3)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.3, patience=50, verbose=True, threshold=1e-4)
 
 # # mixed precision
 model, optimizer = amp.initialize(model, optimizer, opt_level='O2')
@@ -223,14 +223,14 @@ train_loss_list = []
 val_loss_list = []
 best_val_loss = 10.0
 
-restore_checkpoint = False
-filename = ""
-if (restore_checkpoint):
-    state = restore_checkpoint(prefix=filename, model=model, optimizer=optimizer)
+restore = True
+filename = "./checkpoints/add_sub_multiple_512_05-20-2020_16-03-33_log_0.pth"
+if (restore):
+    state = restore_checkpoint(filename=filename, model=model, optimizer=optimizer)
     i = state["batch"]
     train_loss_list = state["train_loss"]
     val_loss_list = state["val_loss"]
-    best_val_loss = val_loss_list[-1]
+    best_val_loss = val_loss_list[-1][1]
 
 
 
@@ -290,7 +290,7 @@ while True:
             rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_log", path="./checkpoints", nb=1)
 
             # if we have a good val model, save it 
-            if val_loss.item() > best_val_loss:
+            if val_loss.item() < best_val_loss:
                 best_val_loss = val_loss.item()
                 print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
                 state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i)
