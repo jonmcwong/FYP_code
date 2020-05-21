@@ -93,7 +93,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "add_sub_multiple_1024"
+exp_name = "O1_baseline_1024"
 # exp_name = "add_sub_multiple_135"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -214,7 +214,7 @@ optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.995),
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.3, patience=50, verbose=True, threshold=1e-4)
 
 # # mixed precision
-model, optimizer = amp.initialize(model, optimizer, opt_level='O2')
+model, optimizer = amp.initialize(model, optimizer, opt_level='O1')
 
 
 # # Train
@@ -231,6 +231,7 @@ if (restore):
     train_loss_list = state["train_loss"]
     val_loss_list = state["val_loss"]
     best_val_loss = val_loss_list[-1][1]
+    amp.load_state_dict(state["amp"])
 
 
 
@@ -264,6 +265,7 @@ while True:
         del batch_qs, batch_qs_mask, batch_as, batch_as_mask
         with amp.scale_loss(train_loss, optimizer) as scaled_loss:
             scaled_loss.backward()
+        # train_loss.backward()
         train_loss_record += float(train_loss)
         del train_loss
 
@@ -286,14 +288,14 @@ while True:
 
             # # log model
             print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
-            state = build_checkpoint(exp_name, unique_id, "log", model, optimizer, val_loss_list, train_loss_list, i)
+            state = build_checkpoint(exp_name, unique_id, "log", model, optimizer, val_loss_list, train_loss_list, i, amp)
             rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_log", path="./checkpoints", nb=1)
 
             # if we have a good val model, save it 
             if val_loss.item() < best_val_loss:
                 best_val_loss = val_loss.item()
                 print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
-                state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i)
+                state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i, amp)
                 rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_best_val", path="./checkpoints", nb=1)    
 
     i+=1

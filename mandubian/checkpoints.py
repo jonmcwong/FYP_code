@@ -40,7 +40,7 @@ def rotating_save_checkpoint(state, prefix, path="./checkpoints", nb=5, best=Fal
         # save latests model.
         torch.save(state, filenames[-1])
 
-def build_checkpoint(exp_name, unique_id, tpe, model, optimizer, val_loss, train_loss, batch):
+def build_checkpoint(exp_name, unique_id, tpe, model, optimizer, val_loss, train_loss, batch, amp):
     return {
         "exp_name": exp_name,
         "unique_id": unique_id,
@@ -50,6 +50,7 @@ def build_checkpoint(exp_name, unique_id, tpe, model, optimizer, val_loss, train
         "val_loss": val_loss,
         "train_loss": train_loss,
         "batch": batch,
+        "amp": amp.state_dict()
     }
             
 def restore_checkpoint(filename, model=None, optimizer=None):
