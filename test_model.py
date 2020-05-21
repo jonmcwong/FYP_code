@@ -42,10 +42,16 @@ from lucidrains_reformer.reformer_pytorch.generative_tools import TrainingWrappe
 # # restore model
 filename = ""
 model = None
-state = restore_checkpoint(filename=filename)
+state = restore_checkpoint(filename=filename, model=model)
+i = state["batch"]
+train_loss_list = state["train_loss"]
+val_loss_list = state["val_loss"]
+best_val_loss = val_loss_list[-1][1]
 
 
 # # plot training graphs
+plt.plot(train_loss_list)
+plt.show()
 
 # # interpolation accuracy
 
