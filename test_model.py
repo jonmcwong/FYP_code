@@ -20,7 +20,7 @@ from mandubian.math_dataset import (random_split_dataset,
     question_answer_to_mask_batch_collate_fn
 )
 import mandubian.checkpoints
-from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, restore_best_checkpoint
+from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, restore_checkpoint
 from mandubian.math_dataset import np_encode_string, np_decode_string
 import mandubian.model_process
 import mandubian.utils
@@ -42,9 +42,16 @@ from lucidrains_reformer.reformer_pytorch.generative_tools import TrainingWrappe
 # # restore model
 filename = ""
 model = None
+state = restore_checkpoint(filename=filename, model=model)
+i = state["batch"]
+train_loss_list = state["train_loss"]
+val_loss_list = state["val_loss"]
+best_val_loss = val_loss_list[-1][1]
 
 
 # # plot training graphs
+plt.plot(train_loss_list)
+plt.show()
 
 # # interpolation accuracy
 
