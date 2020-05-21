@@ -93,7 +93,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "add_sub_multiple_512"
+exp_name = "add_sub_multiple_1024"
 # exp_name = "add_sub_multiple_135"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -103,7 +103,7 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 
 NUM_CPU_THREADS = 6             # dataloader
 BATCH_SIZE = 32                 # size of every accumulatino
-GRADIENT_ACCUMULATE_EVERY = 16   # number of accumulation
+GRADIENT_ACCUMULATE_EVERY = 32   # number of accumulation
 LEARNING_RATE = 6e-4            # 
 VALIDATE_EVERY  = 20            # number of batches between validations
 GENERATE_EVERY  = 60            # number of batechs between sequences generated when training
@@ -223,7 +223,7 @@ train_loss_list = []
 val_loss_list = []
 best_val_loss = 10.0
 
-restore = True
+restore = False
 filename = "./checkpoints/add_sub_multiple_512_05-20-2020_16-03-33_log_0.pth"
 if (restore):
     state = restore_checkpoint(filename=filename, model=model, optimizer=optimizer)
