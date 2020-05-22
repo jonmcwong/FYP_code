@@ -41,8 +41,12 @@ from lucidrains_reformer.reformer_pytorch.generative_tools import TrainingWrappe
 
 # # restore model
 filenames = [
-"./checkpoints/add_sub_multiple_1024_05-20-2020_21-15-53_log_0.pth",
-"./checkpoints/O1_baseline_1024_05-21-2020_14-35-01_log_0.pth"
+"./checkpoints/256_positional_encoding_lr_1e-4_12_layers_05-22-2020_06-40-17_log_0.pth",
+# "./checkpoints/add_sub_multiple_270_05-20-2020_05-32-00_log_0.pth",
+# "./checkpoints/add_sub_multiple_512_05-20-2020_16-50-23_log_0.pth",
+# # "./checkpoints/add_sub_multiple_512_05-20-2020_15-11-16_log_0.pth",
+
+
 ]
 
 for filename in filenames:
