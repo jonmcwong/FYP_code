@@ -279,7 +279,7 @@ def predict_single(question, model, device, beam_size=5,
     
     qs = [np_encode_string(question)]
     qs, qs_pos = question_to_position_batch_collate_fn(qs)
-    qs, qs_pos = qs.to(device), qs_pos.to(device)
+    qs, qs_pos = qs.to(device, non_blocking=True), qs_pos.to(device, non_blocking=True)
     
     all_hyp, all_scores = generator.generate_batch(qs, qs_pos)
     resp = np_decode_string(np.array(all_hyp[0][0]))
@@ -292,3 +292,4 @@ def predict_single(question, model, device, beam_size=5,
             resps.append({"resp":r, "score":s})
     
     return resps
+

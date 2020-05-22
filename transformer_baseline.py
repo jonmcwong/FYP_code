@@ -29,6 +29,9 @@ import mandubian.model_process
 import mandubian.utils
 from mandubian.tensorboard_utils import Tensorboard
 from mandubian.tensorboard_utils import tensorboard_event_accumulator
+from mandubian.model_process import predict_single
+from mandubian.transformer.Generator import Generator
+
 from mandubian.math_dataset import (
     VOCAB_SZ, MAX_QUESTION_SZ, MAX_ANSWER_SZ
 )
@@ -93,7 +96,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "256_positional_encoding_lr_1e-4_12_layers"
+exp_name = "transformer_test"
 # exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -158,19 +161,19 @@ train_ds, val_ds = mandubian.math_dataset.random_split_dataset(training_data,spl
 
 train_loader = data.DataLoader(
     train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_CPU_THREADS,
-    collate_fn=question_answer_to_mask_batch_collate_fn, pin_memory = True)
+    collate_fn=question_answer_to_position_batch_collate_fn, pin_memory = True)
 train_loader = cycle(train_loader)
 
 val_loader = data.DataLoader(
     val_ds, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_CPU_THREADS,
-    collate_fn=question_answer_to_mask_batch_collate_fn, pin_memory = True)
+    collate_fn=question_answer_to_position_batch_collate_fn, pin_memory = True)
 val_loader = cycle(val_loader)
 
 # #  for viewing output sequences
 
 gen_loader = data.DataLoader(
     val_ds, batch_size=1, shuffle=False, num_workers=NUM_CPU_THREADS,
-    collate_fn=question_answer_to_mask_batch_collate_fn, pin_memory = True)
+    collate_fn=question_answer_to_position_batch_collate_fn, pin_memory = True)
 gen_loader = cycle(gen_loader)
 
 # interpolate_loader = data.DataLoader(
@@ -225,18 +228,19 @@ while True:
     
     if (i % GENERATE_EVERY) - 1 == 0:
         model.eval()
-        gen_qs, gen_qs_mask, gen_as, gen_as_mask = next(gen_loader)
+        gen_qs, gen_qs_pos, gen_as, gen_as_pos = next(gen_loader)
         prime = np_decode_string(gen_qs.numpy())
         print('*' * 100, "\nQuestion: ", prime)
         print("Actual Answer: ", np_decode_string(gen_as.numpy()))
-        gen_qs = gen_qs.to(device, non_blocking=True)
-        gen_as = gen_as.to(device, non_blocking=True)
-        gen_qs_mask = gen_qs_mask.to(device, non_blocking=True)
+        # gen_qs = gen_qs.to(device, non_blocking=True)
+        # gen_as = gen_as.to(device, non_blocking=True)
+        # gen_qs_pos = gen_qs_pos.to(device, non_blocking=True)
         with torch.no_grad():
-            sample = model.generate(gen_qs, gen_as[:,0:1], GENERATE_LENGTH, enc_input_mask = gen_qs_mask, dec_eos_token=Constants.EOS)
-        sample = sample.cpu().numpy()
-        output_str = np_decode_string(sample)
-        print("Decoded Prediction: ", output_str)
+            response = model.predict_single(gen_qs, model, device)
+            # sample = model.generate(gen_qs, gen_as[:,0:1], GENERATE_LENGTH, enc_input_mask = gen_qs_pos, dec_eos_token=Constants.EOS)
+        # sample = sample.cpu().numpy()
+        # output_str = np_decode_string(sample)
+        print("Decoded Prediction: ", response[0]["resp"])
         # np.savetxt(base_dir + "logs/" + exp_name + "_" + unique_id + "-train_loss.txt", train_loss_list, fmt="%f")
         # np.savetxt(base_dir + "logs/" + exp_name + "_" + unique_id + "-val_loss.txt", val_loss_list, fmt="%f")
             
@@ -244,9 +248,13 @@ while True:
     model.train()
     train_loss_record = 0
     for __ in range(GRADIENT_ACCUMULATE_EVERY):
-        batch_qs, batch_qs_mask, batch_as, batch_as_mask = map(lambda x: x.to(device, non_blocking=True), next(train_loader))
-        train_loss = model(batch_qs, batch_as, return_loss = True, enc_input_mask = batch_qs_mask)
-        del batch_qs, batch_qs_mask, batch_as, batch_as_mask
+        batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device, non_blocking=True), next(train_loader))
+        gold_as = batch_as[:, 1:]
+
+        pred_as = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos)
+        train_loss, n_correct = compute_performance(pred_as, gold_as, smoothing=False)    
+        # train_loss = model(batch_qs, batch_as, return_loss = True, enc_input_mask = batch_qs_mask)
+        del batch_qs, batch_qs_pos, batch_as, batch_as_pos, gold_as
         with amp.scale_loss(train_loss, optimizer) as scaled_loss:
             scaled_loss.backward()
         # train_loss.backward()
@@ -264,11 +272,22 @@ while True:
 
     if i % VALIDATE_EVERY == 0:
         model.eval()
-        val_batch_qs, val_batch_qs_mask, val_batch_as, val_batch_as_mask = map(lambda x: x.to(device, non_blocking=True), next(val_loader))
+        batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device), batch)
+        gold_as = batch_as[:, 1:]
+        # val_batch_qs, val_batch_qs_mask, val_batch_as, val_batch_as_mask = map(lambda x: x.to(device, non_blocking=True), next(val_loader))
         with torch.no_grad():
-            val_loss = model(val_batch_qs, val_batch_as, return_loss = True, enc_input_mask = val_batch_qs_mask)
+
+            # forward
+            pred_as = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos)
+            val_loss, n_correct = compute_performance(pred_as, gold_as, smoothing=False)
+            # val_loss = model(val_batch_qs, val_batch_as, return_loss = True, enc_input_mask = val_batch_qs_mask)
             print(f'validation loss: {val_loss.item()}')
             val_loss_list.append((i, val_loss.item()))
+
+            #accuracy
+            non_pad_mask = gold_as.ne(Constants.PAD)
+            n_char = non_pad_mask.sum().item()
+            print("Proportion of correct characters: ", n_correct/n_char)
 
             # # log model
             print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
