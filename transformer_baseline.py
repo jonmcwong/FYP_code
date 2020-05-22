@@ -186,24 +186,7 @@ gen_loader = cycle(gen_loader)
 
 # # Model ----------------------------------------------------------------------
 
-model = ReformerEncDec(
-    dim = D_MODEL,
-    enc_num_tokens = NUM_TOKENS,
-    enc_depth = NUM_LAYERS,
-    enc_max_seq_len = Q_SEQ_LEN,
-    dec_num_tokens = NUM_TOKENS,
-    dec_depth = NUM_LAYERS,
-    dec_max_seq_len = Q_SEQ_LEN,
-    # heads = 8 by default
-    # axial_position_shape = (16, 16),    # the shape must multiply up to the max_seq_len (128 x 64 = 8192)
-    # axial_position_dims = (256,256),    # the dims must sum up to the model dimensions (512 + 512 = 1024)
-    pad_value = Constants.PAD,
-    ignore_index = Constants.PAD,       # see if this works. pad_value and ignore_index are probably different
-    use_rezero = True,
-    n_hashes = 16,
-    absolute_position_emb = True
-)
-
+model = utils.build_transformer()
 # model = Recorder(model)
 model.to(device)
 
