@@ -66,6 +66,19 @@ def restore_checkpoint(filename, model=None, optimizer=None):
         optimizer.load_state_dict(state["optimizer"])
     return state
 
+def restore_checkpoint_cpu(filename, model=None, optimizer=None):
+    """restores checkpoint state from filename and load in model and optimizer if provided"""
+    print(f"Extracting state from {filename}")
+
+    state = torch.load(filename, map_location=torch.device('cpu'))
+    if model:
+        print(f"Loading model state_dict from state found in {filename}")
+        model.load_state_dict(state["model"])
+    if optimizer:
+        print(f"Loading optimizer state_dict from state found in {filename}")
+        optimizer.load_state_dict(state["optimizer"])
+    return state
+
 def restore_best_checkpoint(prefix, path="./checkpoints", model=None, optimizer=None):
     filename = Path(path) / f"{prefix}_best"
     return restore_checkpoint(filename, model, optimizer)

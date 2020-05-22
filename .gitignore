@@ -5,5 +5,7 @@ mandubian/*.pth
 mandubian/runs/
 mandubian/checkpoints/
 mandubian/.ipynb_checkpoints/
-mandubian/__pycache__/
+mandubian/__pycache__/*
+mandubian/transformer/__pycache__/*
+
 checkpoints/*
