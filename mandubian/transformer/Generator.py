@@ -94,6 +94,8 @@ class Generator(object):
             n_active_inst = len(inst_idx_to_position_map)
 
             dec_seq = prepare_beam_dec_seq(inst_dec_beams, len_dec_seq)
+
+            #pos idx for calculating position encoding
             dec_pos = prepare_beam_dec_pos(len_dec_seq, n_active_inst, n_bm)
             word_prob = predict_word(dec_seq, dec_pos, src_seq, enc_output, n_active_inst, n_bm)
 
@@ -120,11 +122,14 @@ class Generator(object):
 
             #-- Repeat data for beam search
             n_bm = self.beam_size
+
+            # batch, seq_len, model dim
             n_inst, len_s, d_h = src_enc.size()
             src_seq = src_seq.repeat(1, n_bm).view(n_inst * n_bm, len_s)
             src_enc = src_enc.repeat(1, n_bm, 1).view(n_inst * n_bm, len_s, d_h)
 
             #-- Prepare beams
+            # n_bm beams for each seq in batch
             inst_dec_beams = [Beam(n_bm, device=self.device) for _ in range(n_inst)]
 
             #-- Bookkeeping for active or not
@@ -143,6 +148,7 @@ class Generator(object):
                 src_seq, src_enc, inst_idx_to_position_map = collate_active_info(
                     src_seq, src_enc, inst_idx_to_position_map, active_inst_idx_list)
 
+        # print("beams: ", inst_dec_beams)
         batch_hyp, batch_scores = collect_hypothesis_and_scores(inst_dec_beams, self.n_best)
 
         return batch_hyp, batch_scores

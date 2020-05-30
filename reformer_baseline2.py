@@ -93,7 +93,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "256_positional_encoding_lr_1e-4_12_layers"
+exp_name = "1024_positional_encoding_lr_1e-4_12_layers"
 # exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -103,7 +103,7 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 
 NUM_CPU_THREADS = 6             # dataloader
 BATCH_SIZE = 32                 # size of every accumulatino
-GRADIENT_ACCUMULATE_EVERY = 8   # number of accumulation
+GRADIENT_ACCUMULATE_EVERY = 32   # number of accumulation
 LEARNING_RATE = 1e-4            # 
 VALIDATE_EVERY  = 20            # number of batches between validations
 GENERATE_EVERY  = 60            # number of batechs between sequences generated when training
@@ -195,13 +195,13 @@ model = ReformerEncDec(
     dec_depth = NUM_LAYERS,
     dec_max_seq_len = Q_SEQ_LEN,
     # heads = 8 by default
-    # axial_position_shape = (16, 16),    # the shape must multiply up to the max_seq_len (128 x 64 = 8192)
-    # axial_position_dims = (256,256),    # the dims must sum up to the model dimensions (512 + 512 = 1024)
+    axial_position_shape = (16, 16),    # the shape must multiply up to the max_seq_len (128 x 64 = 8192)
+    axial_position_dims = (256,256),    # the dims must sum up to the model dimensions (512 + 512 = 1024)
     pad_value = Constants.PAD,
     ignore_index = Constants.PAD,       # see if this works. pad_value and ignore_index are probably different
     use_rezero = True,
     n_hashes = 16,
-    absolute_position_emb = True
+    # absolute_position_emb = True
 )
 
 # model = Recorder(model)

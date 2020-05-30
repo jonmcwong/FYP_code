@@ -45,9 +45,11 @@ def get_attn_key_pad_mask(seq_k, seq_q):
 def get_subsequent_mask(seq):
     ''' For masking out the subsequent info. '''
 
+    # batch size and sequence length
     sz_b, len_s = seq.size()
     subsequent_mask = torch.triu(
         torch.ones((len_s, len_s), device=seq.device, dtype=torch.uint8), diagonal=1)
+    # repeat the mask for every sequence in the batch
     subsequent_mask = subsequent_mask.unsqueeze(0).expand(sz_b, -1, -1)  # b x ls x ls
 
     return subsequent_mask
@@ -130,10 +132,14 @@ class Decoder(nn.Module):
         # -- Prepare masks
         non_pad_mask = get_non_pad_mask(tgt_seq)
 
+        # mask for causality
         slf_attn_mask_subseq = get_subsequent_mask(tgt_seq)
+
+        # mask for self a ttetion of decoder
         slf_attn_mask_keypad = get_attn_key_pad_mask(seq_k=tgt_seq, seq_q=tgt_seq)
         slf_attn_mask = (slf_attn_mask_keypad + slf_attn_mask_subseq).gt(0)
 
+        #get mask for th non yad tokens of the source
         dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
 
         # -- Forward
@@ -201,11 +207,16 @@ class Transformer(nn.Module):
 
     def forward(self, src_seq, src_pos, tgt_seq, tgt_pos):
 
+        # leave out the ending token. so that dimensions match
         tgt_seq, tgt_pos = tgt_seq[:, :-1], tgt_pos[:, :-1]
 
         enc_output, *_ = self.encoder(src_seq, src_pos)
         dec_output, *_ = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
-        seq_logit = self.tgt_word_prj(dec_output) * self.x_logit_scale
 
-        return seq_logit.view(-1, seq_logit.size(2))    
+        # project output vectors to onehot via linear projection
+        seq_logit = self.tgt_word_prj(dec_output) * self.x_logit_scale
+        # return seq_logit.view(-1, seq_logit.size(2))
+        # print("Size of transformer output: ", seq_logit.size())
+        # print(enc_output.size())
+        return seq_logit, enc_output
    

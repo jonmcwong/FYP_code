@@ -28,6 +28,8 @@ def train_epoch(model, training_data, optimizer, device, epoch, tb=None, log_int
     for batch_idx, batch in enumerate(tqdm(training_data, mininterval=2, leave=False)):
         print(batch)
         batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device), batch)
+
+        #get rid of BOS
         gold_as = batch_as[:, 1:]
 
         optimizer.zero_grad()
@@ -278,10 +280,17 @@ def predict_single(question, model, device, beam_size=5,
                           max_token_seq_len=max_token_seq_len, n_best=n_best)
     
     qs = [np_encode_string(question)]
+    # qs = question
+    # print("in predict_single: qs shape ", qs)
+
+    # get the padded questions and the positions of each non-pad token
     qs, qs_pos = question_to_position_batch_collate_fn(qs)
+    # print("qs_pos: ", qs_pos)
     qs, qs_pos = qs.to(device, non_blocking=True), qs_pos.to(device, non_blocking=True)
     
+    # hypothesis and scores
     all_hyp, all_scores = generator.generate_batch(qs, qs_pos)
+    # print("answers: ", all_hyp)
     resp = np_decode_string(np.array(all_hyp[0][0]))
     
     resps = []
