@@ -262,11 +262,11 @@ def predict_dataset(dataset, model, device, callback, max_batches=None,
     
     
 def predict_multiple(questions, model, device, beam_size=5,
-                     max_token_seq_len=MAX_QUESTION_SZ, n_best=1, batch_size=1,
-                     num_workers=1):
+                     max_token_seq_len=MAX_QUESTION_SZ, n_best=1, batch_size=1024,
+                     num_workers=4):
 
     questions = list(map(lambda q: np_encode_string(q), questions))
-    questions = data.DataLoader(questions, batch_size=1, shuffle=False, num_workers=1, collate_fn=question_to_position_batch_collate_fn)
+    questions = data.DataLoader(questions, batch_size=batch_size, shuffle=False, num_workers=1, collate_fn=question_to_position_batch_collate_fn)
     
     generator = Generator(model, device, beam_size=beam_size, max_token_seq_len=max_token_seq_len, n_best=n_best)
         
@@ -274,7 +274,7 @@ def predict_multiple(questions, model, device, beam_size=5,
     
     
 def predict_single(question, model, device, beam_size=5,
-                   max_token_seq_len=MAX_QUESTION_SZ, n_best=1):
+                   max_token_seq_len=MAX_QUESTION_SZ, n_best=5): # may need to change this back to 1 later
     
     generator = Generator(model, device, beam_size=beam_size,
                           max_token_seq_len=max_token_seq_len, n_best=n_best)

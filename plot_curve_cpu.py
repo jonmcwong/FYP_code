@@ -41,8 +41,9 @@ from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, re
 
 # # restore model
 filenames = [
-"./checkpoints/add_sub_multiple_1024_05-20-2020_21-15-53_log_0.pth",
-"./checkpoints/O1_baseline_1024_05-21-2020_14-35-01_log_0.pth"
+"./checkpoints/transformer_1024_arithmetic_traineasy_lr_6e-6_05-24-2020_18-12-55/transformer_1024_arithmetic_traineasy_lr_6e-6_05-24-2020_18-12-55_log_0.pth",
+"./checkpoints/activations_collection_batch_size_3072_05-29-2020_19-53-45/activations_collection_batch_size_3072_05-29-2020_19-53-45_log_0.pth",
+"./checkpoints/just_decoder_1024_6e-6_05-31-2020_05-38-04_log_0.pth",
 ]
 
 for filename in filenames:

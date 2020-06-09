@@ -1,3 +1,6 @@
+# # generic transformer model
+
+
 # # code based off of 
 # # https://github.com/mandubian/pytorch_math_dataset and
 # # https://github.com/lucidrains/reformer-pytorch
@@ -18,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import gc
 
+
 import mandubian.math_dataset
 from mandubian.math_dataset import MathDatasetManager
 from mandubian.transformer import Constants
@@ -28,7 +32,7 @@ import mandubian.checkpoints
 from mandubian.checkpoints import rotating_save_checkpoint, build_checkpoint, restore_checkpoint
 from mandubian.math_dataset import np_encode_string, np_decode_string
 import mandubian.model_process
-from mandubian.utils import build_transformer
+from mandubian.utils import build_transformer, build_just_decoder
 from mandubian.tensorboard_utils import Tensorboard
 from mandubian.tensorboard_utils import tensorboard_event_accumulator
 from mandubian.model_process import predict_single
@@ -99,7 +103,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "activations_collection_batch_size_3072"
+exp_name = "final_transformer"
 # exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -107,12 +111,12 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 
 # # Training constants ---------------------------------------------------------
 
-NUM_CPU_THREADS = 12             # dataloader
-BATCH_SIZE = 256                 # size of every accumulatino
-GRADIENT_ACCUMULATE_EVERY = 12  # number of accumulation
+NUM_CPU_THREADS = 1             # dataloader
+BATCH_SIZE = 128                 # size of every accumulatino
+GRADIENT_ACCUMULATE_EVERY = 16  # number of accumulation
 LEARNING_RATE = 6e-6            # 
-VALIDATE_EVERY  = 200            # number of batches between validations
-GENERATE_EVERY  = 500            # number of batechs between sequences generated when training
+VALIDATE_EVERY  = 20            # number of batches between validations
+GENERATE_EVERY  = 200            # number of batechs between sequences generated when training
 GENERATE_LENGTH = 32            # how many characters to generate
 COLLECT_ACTIVATIONS_EVERY = 500
 
@@ -147,17 +151,34 @@ def get_non_pad_mask(seq):
     return seq.ne(Constants.PAD).type(torch.float).unsqueeze(-1)
 
 # # Get training and test data -------------------------------------------------
+training_data, breakdown = mdsmgr.build_dataset_from_category('arithmetic','train-easy',label=True) # for now
 
-# training_data = mdsmgr.build_dataset_from_category('arithmetic','train-easy') # for now
-training_data = mdsmgr.build_dataset_from_modules('arithmetic', ['add_or_sub', 'add_sub_multiple','div','mul', 'mixed', 'mul_div_multiple'], 'train-easy')
-
-# testing_data_interpolate = mdsmgr.build_dataset_from_category('arithmetic','interpolate')
-# testing_data_extrapolate = mdsmgr.build_dataset_from_category('arithmetic','extrapolate')
-
-# interpolate_data = mdsmgr.build_dataset_from_module('arithmetic', 'add_sub_multiple', 'interpolate')
-# extrapolate_data = mdsmgr.build_dataset_from_module('arithmetic', 'add_sub_multiple', 'extrapolate')
 
 train_ds, val_ds = mandubian.math_dataset.random_split_dataset(training_data,split_rate=0.9)
+
+# # # Random seed
+
+# seed = 1
+# torch.manual_seed(seed)
+
+# train_labels, val_labels = mandubian.math_dataset.random_split_dataset(breakdown,split_rate=0.9)
+# print("train_ds")
+# for i in range(5):
+#     print(train_ds[i])
+# print("train_labels")
+# for i in range(5):
+#     print(train_labels[i])
+# separated_data = {}
+# for i in range(len(train_ds)):
+#     if "train-"+train_labels[i] not in separated_data:
+#         separated_data["train-"+train_labels[i]] = []
+#     separated_data["train-"+train_labels[i]].append(train_ds[i])
+# for i in range(len(val_ds)):
+#     if "val-"+val_labels[i] not in separated_data:
+#         separated_data["val-"+val_labels[i]] = []
+#     separated_data["val-"+val_labels[i]].append(val_ds[i])
+
+
 
 # # get pytorch dataloaders ----------------------------------------------------
 
@@ -194,6 +215,7 @@ gen_loader = cycle(gen_loader)
 # # Model ----------------------------------------------------------------------
 
 model = build_transformer()
+# model = build_just_decoder()
 # print(model)
 # model = Recorder(model)
 model.to(device)
@@ -201,7 +223,7 @@ model.to(device)
 
 # # Optimizer learning rate scheduler, mixed precision setup
 
-optimizer = optim.AdamW(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.9995), eps=1e-9)
+optimizer = optim.AdamW(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.995), eps=1e-9)
 
 # scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.85, patience=50, verbose=True, threshold=1e-4, min_lr=1e-7)
 # scheduler = optim.lr_scheduler.StepLR(optimizer, 400)
@@ -214,8 +236,8 @@ i = 0
 train_loss_list = []
 val_loss_list = []
 best_val_loss = 10.0
-restore = False
-filename = "./checkpoints/test_05-22-2020_05-22-01_log_0.pth"
+restore = True
+filename = "./checkpoints/transformer_baseline_continued_06-02-2020_07-50-17/transformer_baseline_continued_06-02-2020_07-50-17_log_0.pth"
 if (restore):
     state = restore_checkpoint(filename=filename, model=model, optimizer=optimizer)
     i = state["batch"]
@@ -223,7 +245,7 @@ if (restore):
     val_loss_list = state["val_loss"]
     best_val_loss = val_loss_list[-1][1]
     amp.load_state_dict(state["amp"])
-
+print(model)
 
 
 while True:
@@ -250,18 +272,18 @@ while True:
         # print(response)
         # np.savetxt(base_dir + "logs/" + exp_name + "_" + unique_id + "-train_loss.txt", train_loss_list, fmt="%f")
         # np.savetxt(base_dir + "logs/" + exp_name + "_" + unique_id + "-val_loss.txt", val_loss_list, fmt="%f")
-            
+        gc.collect()
 
     model.train()
     train_loss_record = 0
-    batch_activations = []
+    # batch_activations = []
     for __ in range(GRADIENT_ACCUMULATE_EVERY):
         batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device, non_blocking=True), next(train_loader))
         gold_as = batch_as[:, 1:]
         # print(batch_qs_pos)
 
         # print(batch_as)
-        pred_as, enc_output = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos)
+        pred_as = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos, return_emb=False)
         # print("prediction: ", pred_as.size())
         train_loss, n_correct, n_correct_answers = compute_performance(pred_as, gold_as, smoothing=False)    
         # train_loss = model(batch_qs, batch_as, return_loss = True, enc_input_mask = batch_qs_mask)
@@ -272,16 +294,6 @@ while True:
         train_loss_record += float(train_loss)
         # print(train_loss_record)
         del train_loss
-        if (i % COLLECT_ACTIVATIONS_EVERY) - 1 == 0:
-            enc_output = enc_output.detach().to('cpu', non_blocking=True)
-            batch_activations.append(enc_output)
-        del enc_output
-
-    if (i % COLLECT_ACTIVATIONS_EVERY) - 1 == 0:
-        with open(f"./checkpoints/{exp_name}_{unique_id}_encoder_outputs_step_{i}", 'wb+') as log_file:
-            pickle.dump({i: batch_activations}, log_file)
-        gc.collect()   
-    del batch_activations
 
 #     if i % GRADIENT_ACCUMULATE_EVERY == 0:
     train_loss_record /= GRADIENT_ACCUMULATE_EVERY
@@ -300,11 +312,11 @@ while True:
         with torch.no_grad():
 
             # forward
-            pred_as, enc_output = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos)
+            pred_as = model(batch_qs, batch_qs_pos, batch_as, batch_as_pos)
             # pred_as = nn.LogSoftmax(pred_as, dim=1)
 
             val_loss, n_correct, n_correct_answers = compute_performance(pred_as, gold_as, smoothing=False)
-            del enc_output, n_correct_answers, pred_as
+            del n_correct_answers, pred_as
             # val_loss = model(val_batch_qs, val_batch_as, return_loss = True, enc_input_mask = val_batch_qs_mask)
             print(f'validation loss: {val_loss.item()}')
             val_loss_list.append((i, val_loss.item()))
@@ -325,5 +337,4 @@ while True:
                 print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
                 state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i, amp)
                 rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_best_val", path="./checkpoints", nb=1)    
-        gc.collect()
     i+=1

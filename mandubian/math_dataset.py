@@ -75,17 +75,21 @@ class LazyFileMathDataset(data.Dataset):
 
       
     def _read_build_dataset(self):
+
+        # # read file and put into a dataframe
         self.df = pd.read_csv(self.file, header=None, sep='\n', names=['qa'], engine='c')
         self._build_dataset()
     
     def _build_dataset(self):
         if self.max_elements is not None:
-            self.df_max = self.df.iloc[0:self.max_elements*2]
+            self.df_max = self.df.iloc[0:self.max_elements*2]   # get the top max_elements datapoints
         else:
             self.df_max = self.df
         
         # take every other line
         self.questions = self.df_max[0::2]
+
+        # # get rid of the old indicies, replace with regular 0...
         self.questions.reset_index(inplace=True, drop=True)
         self.questions.rename(columns={ "qa" : "questions" }, inplace=True)
         self.answers = self.df_max[1::2]
@@ -95,18 +99,24 @@ class LazyFileMathDataset(data.Dataset):
         
     def set_max_elements(self, max_elements):
         self.max_elements = max_elements
+        # # lazy load
         if self.qas is None:
             self._read_build_dataset()
         else:
             self._build_dataset()
         
     def __getitem__(self, idx):
+        # # dataset is only read upon __getitem
+        # #reads the whole file and returns a bunch of question answer pairs based on their idx
         if self.qas is None:
             self._read_build_dataset()            
         question, answer = self.qas.iloc[idx]
+        # # returns dict
         return {
-            "q": question, "q_enc": np_encode_string(question),
-            "a": answer, "a_enc": np_encode_string(answer),
+            "q": question, 
+            "q_enc": np_encode_string(question), # np_encode_string converts the data to numpy arrays
+            "a": answer, 
+            "a_enc": np_encode_string(answer),
         }
 
     def __len__(self):
@@ -167,20 +177,28 @@ class MathDatasetManager(data.Dataset):
         }
         
         self.dfs = {}
-                
+        
+        # # for each difficulty
         for k, dir in self.dirs.items():
+
+            # # for each file in each dir
             files = [ff for ff in glob.glob(str(dir) + "/**/*.txt", recursive=True)]
             for f in files:
+
+                # # create a lazy load object 
                 ds = LazyFileMathDataset(f, lazy_load = True, log=log)
                 if ds.category not in self.dfs:
                     self.dfs[ds.category] = {}
                 if ds.module not in self.dfs[ds.category]:
+
+                    # # add module and initialise with dict
                     self.dfs[ds.category][ds.module] = {
                         "train-easy" : {}, "train-medium" : {}, "train-hard" : {},
                         "interpolate": {}, "extrapolate": {}
                     }
 
-                self.dfs[ds.category][ds.module][k] = ds                    
+                # # add lazy load object as the value of category/module/difficulty:
+                self.dfs[ds.category][ds.module][k] = ds # data is stored in a dataframe
 
         print(f"initialized MultiFilesMathDataset with categories {list(self.dfs.keys())} and types {list(self.dirs.keys())}")
 
@@ -196,22 +214,39 @@ class MathDatasetManager(data.Dataset):
         """retrieves all mathematical modules in a math problem category"""
         return self.dfs[c].keys()
     
-    def _build_datasets_from_category(self, category, typ, max_elements=None):
+    def _build_datasets_from_category(self, category, typ, max_elements=None, label=False):
         ds = []
+        labels = []
+        # # module name and dict for everything inside module
         for k, m in self.dfs[category].items():
+
+            # # if the module contains the specified difficulty level
             if typ in m:
                 if type(m[typ]) is not dict:
                     m[typ].set_max_elements(max_elements)
-                    ds.append(m[typ])
+                    ds.append(m[typ])   # append a lazy object
+
+                    # # keep track of module names and their sizes
+                    labels.append([k+'-'+typ] * len(m[typ]))
+                    # print("type of module: ", type(m[typ]))
                     print(f"added module {category}/{k}/{typ}")
-        return ds
+
+        if label:
+            return ds, labels    # list lazy datasets , list of lists
+        else:
+            return ds   # list of np arrays, might be lits of lazy objects
         
-    def build_dataset_from_category(self, category, typ, max_elements=None):
+    def build_dataset_from_category(self, category, typ, max_elements=None, label=False):
         """Build a dataset for all modules in a category"""
         print(f"adding category {category}/../{typ}")
-        ds = self._build_datasets_from_category(category, typ, max_elements=max_elements)
-        return data.ConcatDataset(ds)
-    
+        ds, labels = self._build_datasets_from_category(category, typ, max_elements=max_elements, label=label)
+        
+        if label:
+            return data.ConcatDataset(ds), data.ConcatDataset(labels) # one single np array
+        else:
+            return data.ConcatDataset(ds)
+
+
     def build_dataset_from_categories(self, categories, typ, max_elements=None):
         """Build a dataset for all modules in several categories"""
         ds = []
@@ -234,6 +269,15 @@ class MathDatasetManager(data.Dataset):
             ds.append(self.dfs[category][module][typ])
         return data.ConcatDataset(ds)
 
+    def build_dataset_from_difficulties_modules_categories(self, categories, modules, difficulties, max_elements=None):
+        """Build a dataset from multiple modules, multiple difficulties and multiple categories"""
+        ds = []
+        for category in categories:
+            for module in modules:
+                for difficulty in difficulties:
+                    self.dfs[category][module][difficulty].set_max_elements(max_elements)
+                    ds.append(self.dfs[category][module][typ])
+        return data.ConcatDataset(ds)
     
     
     
