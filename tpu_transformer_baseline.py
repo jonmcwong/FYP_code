@@ -252,12 +252,11 @@ def map_fn(index, flags):
 		xm.optimizer_step(optimizer)
 		optimizer.zero_grad()
 
-		if xm.is_master_ordinal():
-			print("step: ", i)
+		print("step: ", i)
 
 
 		# # validate model save snapshots
-		if i % VALIDATE_EVERY == 0 and xm.is_master_ordinal():
+		if i % VALIDATE_EVERY == 0:
 			print("-----------------------------------------------------------------")
 			# # log train metrics
 			# # calculate char acc
@@ -271,9 +270,9 @@ def map_fn(index, flags):
 			logs["train_loss"], logs["train_char_acc"], logs["train_ans_acc"] = float(train_loss), n_correct, n_correct_answers
 
 			print("Step ", i, "\t", 
-				"train loss: " + train_loss, "\t", 
-				"char acc: " + n_correct, "\t", 
-				"ans acc: " + n_correct_answers, "\t", 
+				"train loss: " + str(train_loss), "\t", 
+				"char acc: " + str(n_correct), "\t", 
+				"ans acc: " + str(n_correct_answers,) "\t", 
 				datetime.now().time() )
 
 			# # log val metrics
@@ -300,9 +299,9 @@ def map_fn(index, flags):
 
 					logs[module + "_val_loss"], logs[module + "_val_char_acc"], logs[module + "_val_ans_acc"] = val_loss, n_correct, n_correct_answers
 					average_ans_acc += float(n_correct_answers)
-					print(module + " val loss: " + val_loss, "\t", 
-					"char acc: " + n_correct, "\t", 
-					"ans acc: " + n_correct_answers)
+					print(module + " val loss: " + str(val_loss), "\t", 
+					"char acc: " + str(n_correct), "\t", 
+					"ans acc: " + str(n_correct_answers))
 			average_ans_acc = average_ans_acc / len(para_val_loaders)
 			model.train()
 
