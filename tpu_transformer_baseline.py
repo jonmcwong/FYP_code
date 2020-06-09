@@ -14,15 +14,12 @@ import torch.optim as optim
 import tqdm as tqdm
 import random
 from datetime import datetime
-from apex import amp
-import pickle
-import matplotlib
 import numpy as np
-import matplotlib.pyplot as plt
-import gc
-import torch_xla_py.xla_model as xm
+import torch_xla
+import torch_xla.core.xla_model as xm
 import torch_xla.distributed.xla_multiprocessing as xmp
 import torch_xla.distributed.parallel_loader as pl
+import time
 
 import mandubian.math_dataset
 from mandubian.math_dataset import MathDatasetManager
@@ -102,9 +99,7 @@ def map_fn(index, flags):
 
 	# # Initialize Math Dataset Manager
 
-	mdsmgr = MathDatasetManager(
-	  "/home/jonmcwong/mathematics_dataset-v1.0/"
-	)
+	
 
 	modules = ['add_or_sub', 'add_sub_multiple', 'div', 'mixed', 'mul', 'mul_div_multiple', 'add_or_sub_in_base', 'nearest_integer_root', 'simplify_surd']
 	val_modules = ['add_or_sub', 'add_sub_multiple', 'div', 'mixed', 'mul', 'mul_div_multiple']
@@ -113,11 +108,15 @@ def map_fn(index, flags):
 	if not xm.is_master_ordinal():
 		xm.rendezvous('read_only_once') # wait if you are not master
 
+	mdsmgr = MathDatasetManager(
+	  "/home/jonmcwong/mathematics_dataset-v1.0/"
+	)
+
 	train_module_data = {}
 	val_module_data = {}
 	for module in modules:
 		tmp_data = mdsmgr.build_dataset_from_module('arithmetic', module, 'train-easy')
-		tmp_train, tmp_val = mandubian.math_dataset.random_split_dataset(training_data,split_rate=0.9)
+		tmp_train, tmp_val = mandubian.math_dataset.random_split_dataset(tmp_data,split_rate=0.9)
 		train_module_data[module] = tmp_train
 		val_module_data[module] = tmp_val
 
@@ -149,7 +148,6 @@ def map_fn(index, flags):
 	train_loader = data.DataLoader(
 		train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_CPU_THREADS,
 		collate_fn=question_answer_to_position_batch_collate_fn, pin_memory = True)
-	train_loader = cycle(train_loader)
 
 	val_loaders = {}
 	for module, dataset in val_dss.items():
@@ -158,9 +156,9 @@ def map_fn(index, flags):
 			batch_size=flags['batch_size'],
 			sampler=val_samplers[module],
 			shuffle=False,
-			num_workers=flags['num_workers'],
+			num_workers=flags['num_cpu_threads'],
 			drop_last=True)
-		val_loaders[module] = cycle(val_loaders[module])
+
 
 	# #  for viewing output sequences
 
@@ -216,14 +214,16 @@ def map_fn(index, flags):
 
 	# # parallel loaders
 	para_train_loader = pl.ParallelLoader(train_loader, [device]).per_device_loader(device)
+	para_train_loader = cycle(para_train_loader)
 	para_val_loaders = {}
-	for module, loader in val_loaders:
-		para_val_loaders[module] = pl.parallelLoader(loader, [device]).per_device_loader(device)
+	for module, loader in val_loaders.items():
+		para_val_loaders[module] = pl.ParallelLoader(loader, [device]).per_device_loader(device)
+		para_val_loaders[module] = cycle(para_val_loaders[module])
 
 	# # Train ----------------------------------------------------------------------
 	train_start=time.time()
 	for i in range(STEPS):
-		
+
 		# if (i % GENERATE_EVERY) - 1 == 0:
 		#     model.eval()
 		#     gen_qs, gen_qs_pos, gen_as, gen_as_pos = next(gen_loader)

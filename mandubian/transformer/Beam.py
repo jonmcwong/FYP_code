@@ -7,7 +7,7 @@
 
 import torch
 import numpy as np
-import mandubian.transformer.Constants as Constants
+from . import Constants as Constants
 
 class Beam():
     ''' Beam search '''
