@@ -265,9 +265,9 @@ def map_fn(index, flags):
 			logs["train_loss"], logs["train_char_acc"], logs["train_ans_acc"] = float(train_loss), n_correct, n_correct_answers
 
 			print("Step ", i, "\t", 
-				f"train loss: {train_loss}", "\t", 
-				f"char acc: {n_correct}", "\t", 
-				f"ans acc: {n_correct_answers}", "\t", 
+				"train loss: " + train_loss, "\t", 
+				"char acc: " + n_correct, "\t", 
+				"ans acc: " + n_correct_answers, "\t", 
 				datetime.now().time() )
 
 			# # log val metrics
@@ -294,12 +294,12 @@ def map_fn(index, flags):
 
 					logs[module + "_val_loss"], logs[module + "_val_char_acc"], logs[module + "_val_ans_acc"] = val_loss, n_correct, n_correct_answers
 					average_ans_acc += float(n_correct_answers)
-					print(f"{module} val loss: {val_loss}", "\t", 
-					f"char acc: {n_correct}", "\t", 
-					f"ans acc: {n_correct_answers}")
+					print(module + " val loss: " + val_loss, "\t", 
+					"char acc: " + n_correct, "\t", 
+					"ans acc: " + n_correct_answers)
 			average_ans_acc = average_ans_acc / len(para_val_loaders)
 			# # save model
-			print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
+			print("Checkpointing model to ", exp_name + "_" + unique_id + "_log")
 			state = build_checkpoint_detailed(
 				exp_name, 
 				unique_id, 
@@ -310,7 +310,7 @@ def map_fn(index, flags):
 				i)
 			rotating_save_checkpoint(
 				state, 
-				prefix=f"{exp_name}_{unique_id}_latest", 
+				prefix=exp_name + "_" + unique_id + "_latest", 
 				path="./checkpoints", 
 				nb=1)
 
@@ -319,7 +319,7 @@ def map_fn(index, flags):
 				best_val_ans_acc = average_ans_acc
 				print("Reached best validation answer accuracy!")
 				rotating_save_checkpoint(state, 
-					prefix=f"{exp_name}_{unique_id}_best_val_ans_acc", 
+					prefix=exp_name + "_" + unique_id + "_best_val_ans_acc", 
 					path="./checkpoints", nb=1)
 
 
@@ -328,7 +328,7 @@ def map_fn(index, flags):
 					last_milestone_val_ans_acc = average_ans_acc
 					print("Milestone Reached")
 					rotating_save_checkpoint(state, 
-						prefix=f"{exp_name}_{unique_id}_training_milestone", 
+						prefix=exp_name + "_" + unique_id + "_training_milestone", 
 						path="./checkpoints", nb=5)
 
 	elapsed_train_time = time.time() - train_start
