@@ -2,8 +2,11 @@
 import torch
 import torch.nn as nn
 import numpy as np
-import mandubian.transformer.Constants as Constants
-from mandubian.transformer.Layers import EncoderLayer, DecoderLayer
+from . import Constants as Constants
+#import transformer.Constants as Constants
+#from . import Layers 
+from .Layers import EncoderLayer, DecoderLayer
+#from mandubian.transformer.Layers import EncoderLayer, DecoderLayer
 
 __author__ = "Yu-Hsiang Huang"
 
