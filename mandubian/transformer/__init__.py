@@ -1,6 +1,6 @@
 # from mandubian import transformer
 
-# from .transformer import Constants
+from .transformer import Constants
 # from .transformer import Modules
 # from .transformer import Layers
 # from .transformer import SubLayers
