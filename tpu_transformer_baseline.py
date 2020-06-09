@@ -222,7 +222,7 @@ def map_fn(index, flags):
 
 	# # Train ----------------------------------------------------------------------
 	train_start=time.time()
-	for i in range(STEPS)
+	for i in range(STEPS):
 		
 		# if (i % GENERATE_EVERY) - 1 == 0:
 		#     model.eval()
@@ -265,9 +265,9 @@ def map_fn(index, flags):
 			logs["train_loss"], logs["train_char_acc"], logs["train_ans_acc"] = float(train_loss), n_correct, n_correct_answers
 
 			print("Step ", i, "\t", 
-				f'train loss: {train_loss}', "\t", 
-				f'char acc: {n_correct}', "\t", 
-				f'ans acc: {n_correct_answers}', "\t", 
+				f"train loss: {train_loss}", "\t", 
+				f"char acc: {n_correct}", "\t", 
+				f"ans acc: {n_correct_answers}", "\t", 
 				datetime.now().time() )
 
 			# # log val metrics
@@ -294,9 +294,9 @@ def map_fn(index, flags):
 
 					logs[module + "_val_loss"], logs[module + "_val_char_acc"], logs[module + "_val_ans_acc"] = val_loss, n_correct, n_correct_answers
 					average_ans_acc += float(n_correct_answers)
-					print(f'{module} val loss: {val_loss}', "\t", 
-					f'char acc: {n_correct}', "\t", 
-					f'ans acc: {n_correct_answers}')
+					print(f"{module} val loss: {val_loss}", "\t", 
+					f"char acc: {n_correct}", "\t", 
+					f"ans acc: {n_correct_answers}")
 			average_ans_acc = average_ans_acc / len(para_val_loaders)
 			# # save model
 			print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
