@@ -49,6 +49,14 @@ from lucidrains_reformer.reformer_pytorch import ReformerEncDec
 from lucidrains_reformer.reformer_pytorch.generative_tools import TrainingWrapper
 
 
+# helpers ----------------------------------------------------------------------
+
+def cycle(loader):
+	while True:
+		for data in loader:
+			yield data
+
+
 def map_fn(index, flags):
 	# # Random seed
 
@@ -87,13 +95,6 @@ def map_fn(index, flags):
 	QKV_DIM = D_MODEL / NUM_HEADS
 	NUM_LAYERS = 6
 	D_FF = 2048
-
-	# helpers ----------------------------------------------------------------------
-
-	def cycle(loader):
-		while True:
-			for data in loader:
-				yield data
 
 	# # Get training and test data -------------------------------------------------
 
