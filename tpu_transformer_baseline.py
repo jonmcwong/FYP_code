@@ -150,11 +150,11 @@ def map_fn(index, flags):
 		drop_last=True)
 
 	val_loaders = {}
-	for module, dataset in val_dss.items():
-		val_loaders[module] = data.DataLoader(
-			dataset,
+	for val_module in val_modules:
+		val_loaders[val_module] = data.DataLoader(
+			val_dss[val_module],
 			batch_size=BATCH_SIZE,
-			sampler=val_samplers[module],
+			sampler=val_samplers[val_module],
 			shuffle=False,
 			collate_fn=question_answer_to_position_batch_collate_fn,
 			pin_memory=True,
