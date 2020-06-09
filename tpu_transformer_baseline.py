@@ -272,7 +272,7 @@ def map_fn(index, flags):
 			print("Step ", i, "\t", 
 				"train loss: " + str(train_loss), "\t", 
 				"char acc: " + str(n_correct), "\t", 
-				"ans acc: " + str(n_correct_answers,) "\t", 
+				"ans acc: " + str(n_correct_answers), "\t", 
 				datetime.now().time() )
 
 			# # log val metrics
