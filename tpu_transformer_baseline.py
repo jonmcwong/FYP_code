@@ -48,8 +48,10 @@ from lucidrains_reformer.reformer_pytorch import ReformerLM, Autopadder, Recorde
 from lucidrains_reformer.reformer_pytorch import ReformerEncDec
 from lucidrains_reformer.reformer_pytorch.generative_tools import TrainingWrapper
 
-
 def map_fn(index, flags):
+
+
+
 	# # Random seed
 
 	seed = flags["seed"]
@@ -57,7 +59,6 @@ def map_fn(index, flags):
 
 	# # Check hardware
 
-	print(torch.cuda.device_count(), "detected TPU devices")
 	device = xm.xla_device()
 
 	# # Experiment ID --------------------------------------------------------------
@@ -74,7 +75,7 @@ def map_fn(index, flags):
 	BATCH_SIZE = flags["batch_size"]                    # size of every accumulatino
 	LEARNING_RATE = flags["learning_rate"]              # 
 	VALIDATE_EVERY  = flags["validate_every"]			# number of batches between validations
-	STEPS = flags["steps"]								# number of weight updates
+	EPOCHS = flags["epochs"]								# number of weight updates
 
 	# # model hyperparameters ------------------------------------------------------
 
@@ -99,14 +100,10 @@ def map_fn(index, flags):
 
 	# # Initialize Math Dataset Manager
 
-	
+
 
 	modules = ['add_or_sub', 'add_sub_multiple', 'div', 'mixed', 'mul', 'mul_div_multiple', 'add_or_sub_in_base', 'nearest_integer_root', 'simplify_surd']
 	val_modules = ['add_or_sub', 'add_sub_multiple', 'div', 'mixed', 'mul', 'mul_div_multiple']
-
-	# # let the master get the dataset
-	if not xm.is_master_ordinal():
-		xm.rendezvous('read_only_once') # wait if you are not master
 
 	mdsmgr = MathDatasetManager(
 	  "/home/jonmcwong/mathematics_dataset-v1.0/"
@@ -122,9 +119,6 @@ def map_fn(index, flags):
 
 	train_ds = data.ConcatDataset(train_module_data.values())
 	val_dss = val_module_data
-
-	if xm.is_master_ordinal():
-		xm.rendezvous('read_only_once') # the master joins the rest of the cores
 
 	# # Get the distributed train samplers -----------------------------------------
 	train_sampler = data.distributed.DistributedSampler(
@@ -146,17 +140,24 @@ def map_fn(index, flags):
 	# # Get dataloaders ------------------------------------------------------------
 
 	train_loader = data.DataLoader(
-		train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_CPU_THREADS,
-		collate_fn=question_answer_to_position_batch_collate_fn, pin_memory = True)
+		train_ds,
+		batch_size=BATCH_SIZE,
+		sampler=train_sampler,
+		num_workers=NUM_CPU_WORKERS,
+		collate_fn=question_answer_to_position_batch_collate_fn,
+		pin_memory = True,
+		drop_last=True)
 
 	val_loaders = {}
 	for module, dataset in val_dss.items():
 		val_loaders[module] = data.DataLoader(
 			dataset,
-			batch_size=flags['batch_size'],
+			batch_size=BATCH_SIZE,
 			sampler=val_samplers[module],
 			shuffle=False,
-			num_workers=flags['num_cpu_threads'],
+			collate_fn=question_answer_to_position_batch_collate_fn,
+			pin_memory=True,
+			num_workers=NUM_CPU_THREADS,
 			drop_last=True)
 
 
@@ -219,10 +220,10 @@ def map_fn(index, flags):
 	for module, loader in val_loaders.items():
 		para_val_loaders[module] = pl.ParallelLoader(loader, [device]).per_device_loader(device)
 		para_val_loaders[module] = cycle(para_val_loaders[module])
-
+	print("reached this print")
 	# # Train ----------------------------------------------------------------------
 	train_start=time.time()
-	for i in range(STEPS):
+	for i in range(EPOCHS):
 
 		# if (i % GENERATE_EVERY) - 1 == 0:
 		#     model.eval()
@@ -250,8 +251,12 @@ def map_fn(index, flags):
 		xm.optimizer_step(optimizer)
 		optimizer.zero_grad()
 
+		if xm.is_master_ordinal():
+			print("step: ", i)
+
+
 		# # validate model save snapshots
-		if i % VALIDATE_EVERY and xm.is_master_ordinal()== 0:
+		if i % VALIDATE_EVERY == 0 and xm.is_master_ordinal():
 			print("-----------------------------------------------------------------")
 			# # log train metrics
 			# # calculate char acc
@@ -301,25 +306,25 @@ def map_fn(index, flags):
 			# # save model
 			print("Checkpointing model to ", exp_name + "_" + unique_id + "_log")
 			state = build_checkpoint_detailed(
-				exp_name, 
-				unique_id, 
-				"log", 
-				model, 
-				optimizer, 
-				logs, 
+				exp_name,
+				unique_id,
+				"log",
+				model,
+				optimizer,
+				logs,
 				i)
 			rotating_save_checkpoint(
-				state, 
-				prefix=exp_name + "_" + unique_id + "_latest", 
-				path="./checkpoints", 
+				state,
+				prefix=exp_name + "_" + unique_id + "_latest",
+				path="./checkpoints",
 				nb=1)
 
-			# if we have a good val model, save it 
+			# if we have a good val model, save it
 			if average_ans_acc > best_val_ans_acc:
 				best_val_ans_acc = average_ans_acc
 				print("Reached best validation answer accuracy!")
-				rotating_save_checkpoint(state, 
-					prefix=exp_name + "_" + unique_id + "_best_val_ans_acc", 
+				rotating_save_checkpoint(state,
+					prefix=exp_name + "_" + unique_id + "_best_val_ans_acc",
 					path="./checkpoints", nb=1)
 
 
@@ -327,21 +332,27 @@ def map_fn(index, flags):
 				if average_ans_acc > last_milestone_val_ans_acc + 20:
 					last_milestone_val_ans_acc = average_ans_acc
 					print("Milestone Reached")
-					rotating_save_checkpoint(state, 
-						prefix=exp_name + "_" + unique_id + "_training_milestone", 
+					rotating_save_checkpoint(state,
+						prefix=exp_name + "_" + unique_id + "_training_milestone",
 						path="./checkpoints", nb=5)
 
 	elapsed_train_time = time.time() - train_start
-	print("Process", index, "finished training. Train time was:", elapsed_train_time) 
+	print("Process", index, "finished training. Train time was:", elapsed_train_time)
 
+#        def run():
+ #               torch.multiprocessing.freeze_support()
+  #              print('loop')
 
-# # run program
-flags = {}
-flags["batch_size"] = 1024
-flags["steps"] = 1000
-flags["seed"] = 1
-flags["num_cpu_threads"] = 8
-flags["validate_every"] = 1000
-flags["learning_rate"] = 6e-6
+if __name__ == '__main__':
+ #               run()
 
-xmp.spawn(map_fn, args=(flags,), nprocs=8, start_method='fork')
+	# # run program
+	flags = {}
+	flags["batch_size"] = 1024
+	flags["steps"] = 1000
+	flags["seed"] = 1
+	flags["num_cpu_threads"] = 1
+	flags["validate_every"] = 1000
+	flags["learning_rate"] = 6e-6
+
+	xmp.spawn(map_fn, args=(flags,), nprocs=8, start_method='fork')
