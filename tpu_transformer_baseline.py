@@ -278,7 +278,7 @@ def map_fn(index, flags):
 			# # log val metrics
 			model.eval()
 			average_ans_acc = 0
-			for module, para_val_loader in para_val_loaders:
+			for module, para_val_loader in para_val_loaders.items():
 				batch_qs, batch_qs_pos, batch_as, batch_as_pos = next(para_val_loader)
 				gold_as = batch_as[:, 1:]
 
