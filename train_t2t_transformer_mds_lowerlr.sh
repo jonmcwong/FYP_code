@@ -1,16 +1,16 @@
 # transformer script with original mds params
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.247.45.74
+export TPU_IP_ADDRESS=10.249.128.34
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=transformer
 export HPARAMS_SET=transformer_tpu
 
-export TPU_NAME=actualmathstpu	# different for each run
+export TPU_NAME=paper-default-lowerlr	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL_TAG=mds_paper_settings
+export MODEL_TAG=mds_paper_settings_lowerlr
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
 
 export DATA_DIR=${STORAGE_BUCKET}/t2t-data
@@ -44,8 +44,9 @@ t2t-trainer \
   --hparams='label_smoothing=0', \
   --hparams='optimizer=Adam', \
   --hparams='learning_rate_schedule="constant"', \
-  --hparams='learning_rate_constant=6e-4', \
+  --hparams='learning_rate_constant=6e-6', \
   --hparams='learning_rate=6e-4', \
   --hparams='optimizer_adam_epsilon=1e-9', \
   --hparams='optimizer_adam_beta1=0.9', \
   --hparams='optimizer_adam_beta2=0.995
+
