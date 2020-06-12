@@ -7,17 +7,7 @@ export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=transformer
 export HPARAMS_SET=transformer_tpu
-export OVERIDE_HPARAMS='batch_size=1024, \
-                        clip_grad_norm=0.1, \
-                        dropout=0.1, \
-                        label_smoothing=0 \
-                        optimizer=Adam, \
-                        learning_rate_schedule="constant", \
-                        learning_rate_constant=6e-4, \
-                        learning_rate=6e-4, \
-                        optimizer_adam_epsilon=1e-9,
-                        optimizer_adam_beta1=0.9,
-                        optimizer_adam_beta2=0.995'
+
 export TPU_NAME=actualmathstpu	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
 export MODEL_TAG=mds_paper_settings
@@ -41,11 +31,21 @@ t2t-trainer \
   --data_dir=$DATA_DIR \
   --problem=$PROBLEM \
   --model=$MODEL \
-  --hparams_set=$HPARAMS \
-  --hparams=
+  --hparams_set=$HPARAMS_SET \
   --output_dir=$TRAIN_DIR \
   --use_tpu=True \
   --cloud_tpu_name=${TPU_NAME} \
   --train_steps=600000 \
   --eval_steps=3 \
-  --save_checkpoints_secs=3600
+  --save_checkpoints_secs=3600 \
+  --hparams='batch_size=1024', \
+  --hparams='clip_grad_norm=0.1', \
+  --hparams='dropout=0.1', \
+  --hparams='label_smoothing=', \
+  --hparams='optimizer=Adam', \
+  --hparams='learning_rate_schedule="constant"', \
+  --hparams='learning_rate_constant=6e-4', \
+  --hparams='learning_rate=6e-4', \
+  --hparams='optimizer_adam_epsilon=1e-9', \
+  --hparams='optimizer_adam_beta1=0.9', \
+  --hparams='optimizer_adam_beta2=0.995
