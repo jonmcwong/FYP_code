@@ -48,4 +48,4 @@ t2t-trainer \
   --hparams='learning_rate=6e-4', \
   --hparams='optimizer_adam_epsilon=1e-9', \
   --hparams='optimizer_adam_beta1=0.9', \
-  --hparams='optimizer_adam_beta2=0.995
+  --hparams='optimizer_adam_beta2=0.995'
