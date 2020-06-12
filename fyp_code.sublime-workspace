@@ -1,0 +1,486 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"num",
+				"num"
+			],
+			[
+				"prev",
+				"prev"
+			],
+			[
+				"altl",
+				"altl"
+			],
+			[
+				"row",
+				"ws_row"
+			],
+			[
+				"L3L",
+				"L3L"
+			],
+			[
+				"int",
+				"int"
+			],
+			[
+				"string",
+				"stringify"
+			],
+			[
+				"j",
+				"javascript"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Java/Ant.sublime-build",
+					""
+				],
+				[
+					"Packages/Java/JavaC.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Java/JavaC.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Install Package Control"
+			],
+			[
+				"view new",
+				"File: New View into File"
+			],
+			[
+				"side",
+				"View: Toggle Side Bar"
+			],
+			[
+				"view files",
+				"View: Toggle Open Files in Side Bar"
+			],
+			[
+				"",
+				"Build: New Build System"
+			],
+			[
+				"sublime",
+				"Sublime Merge: File History"
+			],
+			[
+				"latex",
+				"LaTeXTools: Check system"
+			],
+			[
+				"build",
+				"LaTeXTools: Build cache of LaTeX packages"
+			],
+			[
+				"status",
+				"View: Toggle Status Bar"
+			],
+			[
+				"change",
+				"Changelog"
+			],
+			[
+				"toggle tab",
+				"View: Toggle Tabs"
+			],
+			[
+				"toggle sid",
+				"View: Toggle Side Bar"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"tabs",
+				"View: Toggle Tabs"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings"
+			],
+			[
+				"side ",
+				"View: Toggle Side Bar"
+			],
+			[
+				"vmenu",
+				"View: Toggle Menu"
+			],
+			[
+				"word",
+				"Word Wrap: Toggle"
+			],
+			[
+				"view",
+				"View: Toggle Menu"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 84.0,
+		"history":
+		[
+			"view menu",
+			"view menue"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": true,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests"
+	],
+	"file_history":
+	[
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/generator_utils.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/algorithmic_math_deepmind.py",
+		"/home/jonathan/Repos/#My Memory",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/background/maths_qa.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/bibs/sample.bib",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/background/background.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/design_and_implementation/design_and_implementation.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/related_work/related_work.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/introduction/introduction.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/main.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/related_work/related_work.tex",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/spectre-ACA.c",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/future_work/future_work.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/results/results.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/design_and_implementation/design_and_implementation.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/background/background.tex",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/report/baseline/baseline.tex",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_log.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_baseline.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_varyFlushDelay.txt",
+		"/home/jonathan/Repos/final_year_at_ic/project_work/.gitignore",
+		"/home/jonathan/Repos/travelling_salesman/main.c",
+		"/home/jonathan/Repos/travelling_salesman/graph.h",
+		"/home/jonathan/Repos/travelling_salesman/graph.c",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_varFlushDelay.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_VaryFlushDelay.sh",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_test.sh",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/Makefile",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/mw_V",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/mfencedelay.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/cacheline512.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/spectre-ACA.out",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/17-11-19-1947-testlog.txt",
+		"/home/jonathan/Repos/final_year_at_ic/ACA_cw2/SpectrePoC/common/jw_VaryCacheThreshold.sh",
+		"/home/jonathan/Repos/final_year_at_ic/project_work/mathematics_dataset-v1.0/train-easy/arithmetic__add_or_sub.txt",
+		"/home/jonathan/Repos/final_year_at_ic/rtx_bench/lambda-tensorflow-benchmark/benchmark.sh",
+		"/home/jonathan/Repos/final_year_at_ic/rtx_bench/lambda-tensorflow-benchmark/benchmarks/scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py",
+		"/home/jonathan/Repos/final_year_at_ic/rtx_bench/lambda-tensorflow-benchmark/bernchmark.sh",
+		"/home/jonathan/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/app_menu.js",
+		"/home/jonathan/.local/share/gnome-shell/extensions/zTile@theowendev.gmail.com/extension.js",
+		"/home/jonathan/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/buttons.js",
+		"/home/jonathan/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/util.js",
+		"/home/jonathan/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/decoration.js",
+		"/home/jonathan/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/extension.js",
+		"/home/jonathan/Documents/learn_python/ex13.py",
+		"/home/jonathan/Documents/learn_python/ex12.py",
+		"/home/jonathan/Documents/learn_python/ex11_extension.py",
+		"/home/jonathan/Documents/learn_python/ex12",
+		"/home/jonathan/Documents/learn_python/output1.txt",
+		"/home/jonathan/Documents/learn_python/output.txt",
+		"/home/jonathan/Documents/learn_python/ex11.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex10.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex1.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex2.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex3.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex4.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex5.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex6.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex7.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex8.py",
+		"/home/jmw16/Documents/Repos/learnPython/ex9.py",
+		"/home/jmw16/Documents/Repos/yr3ImgFinalReport/reportPlan.txt",
+		"/home/jmw16/Documents/Repos/yr3ImgFinalReport/latex/aua.bib",
+		"/home/jmw16/Documents/Repos/InterRep/InterimReport.tex",
+		"/home/jmw16/Documents/Repos/yr3ImgFinalReport/managerFeedback.txt",
+		"/home/jmw16/Documents/Repos/yr3ImgFinalReport/latex/finalReport.tex",
+		"/home/jmw16/Documents/Repos/FourthYear/Modules_Projects.txt",
+		"/home/jmw16/Documents/Repos/FinalYearModules/Modules_Projects.txt",
+		"/home/jmw16/Music/ASMR/mp4/abigaile-johnson-gets-gangbanged-by-black-cocks-720.mp4.part",
+		"/home/jmw16/Documents/Repos/aspFinalRep/reportPlan.txt",
+		"/home/jmw16/Documents/Repos/Skiman/SKIMAN_game.cpp",
+		"/home/jmw16/Documents/Repos/ASP_Coursework/Latex/ASP_coursework.tex",
+		"/home/jmw16/Documents/Repos/aspFinalRep/report.tex",
+		"/home/jmw16/Documents/Repos/landGrabber/output.h",
+		"/home/jmw16/Documents/Repos/landGrabber/input.c",
+		"/home/jmw16/Documents/Repos/landGrabber/input.h",
+		"/home/jmw16/Documents/Repos/LearningC/game.c",
+		"/home/jmw16/Documents/Repos/landGrabber/output.c",
+		"/home/jmw16/Documents/Repos/landGrabber/image.h",
+		"/home/jmw16/Documents/Repos/landGrabber/map.h",
+		"/home/jmw16/Documents/Repos/landGrabber/map.c",
+		"/home/jmw16/Documents/Repos/DataStructures/spec",
+		"/home/jmw16/Documents/Repos/DataStructures/raytracingThoughts/Thoughts.tex",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Communication/commfunc.cpp",
+		"/home/jmw16/Documents/Repos/Websites/Gemcraft 0/A game.html",
+		"/home/jmw16/Documents/Repos/Websites/Crazy taxi without  ads/A game.html",
+		"/home/jmw16/Documents/Repos/DeepLearning/latex/MishchukMRM17.bib",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Music/main.cpp",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/blind.cpp",
+		"/home/jmw16/Downloads/stateClass.h",
+		"/home/jmw16/Downloads/Untitled-1.c",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/acc.cpp",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/torque experiment.cpp",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/test2.cpp",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/acc.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/test.cpp",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/communication.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/bakerloo.html",
+		"/usr/share/applications/matlab.desktop",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/tflapi.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/importdata.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Motor/motor.cpp",
+		"/home/jmw16/Documents/Repos/landGrabber/timing.h",
+		"/home/jmw16/Documents/Repos/landGrabber/timing.c",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/index.html",
+		"/usr/share/applications/google-chrome.desktop",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/tflapi.json",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/imports.html",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/communication.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/bakerlooEnvironment.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/delete.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/apis.html",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/imports.html",
+		"/home/jmw16/Documents/Repos/mqtt.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/mqtt.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/mqtt.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/test.json",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/js/importdata.js",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/lines/bakerloo.html",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/index.html",
+		"/home/jmw16/Downloads/javascript-websockets/websockets-1.htm",
+		"/home/jmw16/Documents/Repos/LearningC/helloworld.c",
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Stringify.py",
+		"/home/jmw16/Downloads/Fun-With-Websites-master/Hurdle Game/Win.html",
+		"/home/jmw16/Documents/Repos/Comms CourseWork/300_char_message.txt",
+		"/home/jmw16/Documents/Repos/RayCast/test commit",
+		"/home/jmw16/.config/pulse/equalizer-state.tdb",
+		"/home/jmw16/Documents/Repos/CodingChallenge/src/main/java/answers/Question1.java"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 143.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 120.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 194.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 30.0
+	},
+	"pinned_build_system": "",
+	"project": "fyp_code.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 435.0,
+	"status_bar_visible": false,
+	"template_settings":
+	{
+	}
+}

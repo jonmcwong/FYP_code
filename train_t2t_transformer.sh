@@ -14,7 +14,7 @@ t2t-datagen \
   --data_dir=$DATA_DIR \
   --tmp_dir=$TMP_DIR \
   --problem=$PROBLEM
-
+echo "FINISHED DOWNLOADING"
 # Train
 # *  If you run out of memory, add --hparams='batch_size=1024'.
 t2t-trainer \
