@@ -40,29 +40,28 @@
 	"buffers":
 	[
 		{
-			"file": "train_t2t_transformer_mdsdefault.sh",
-			"settings":
-			{
-				"buffer_size": 1551,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "train_t2t_transformer_mds_lowerlr.sh",
-			"settings":
-			{
-				"buffer_size": 1568,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "/home/jonathan/Repos/#My Memory",
 			"settings":
 			{
-				"buffer_size": 5642,
+				"buffer_size": 5644,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/eval_model_tf.sh",
+			"settings":
+			{
+				"buffer_size": 1247,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
+			"settings":
+			{
+				"buffer_size": 1568,
 				"line_ending": "Unix"
 			}
 		}
@@ -246,10 +245,17 @@
 	"expanded_folders":
 	[
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/logs"
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf"
 	],
 	"file_history":
 	[
+		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings_lowerlr-2020-06-12/flags.txt",
+		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/events.out.tfevents.1591964895.train-t2t-adamdefault",
+		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/graph.pbtxt",
+		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/model.ckpt-1566800.meta",
+		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings_lowerlr-2020-06-12/model.ckpt-1016800.index",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/train_t2t_transformer_mds_lowerlr.sh",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/train_t2t_transformer_mdsdefault.sh",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/generator_utils.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/algorithmic_math_deepmind.py",
 		"/home/jonathan/Repos/#My Memory",
@@ -370,14 +376,7 @@
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/js/importdata.js",
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/lines/bakerloo.html",
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/index.html",
-		"/home/jmw16/Downloads/javascript-websockets/websockets-1.htm",
-		"/home/jmw16/Documents/Repos/LearningC/helloworld.c",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/Stringify.py",
-		"/home/jmw16/Downloads/Fun-With-Websites-master/Hurdle Game/Win.html",
-		"/home/jmw16/Documents/Repos/Comms CourseWork/300_char_message.txt",
-		"/home/jmw16/Documents/Repos/RayCast/test commit",
-		"/home/jmw16/.config/pulse/equalizer-state.tdb",
-		"/home/jmw16/Documents/Repos/CodingChallenge/src/main/java/answers/Question1.java"
+		"/home/jmw16/Downloads/javascript-websockets/websockets-1.htm"
 	],
 	"find":
 	{
@@ -412,24 +411,81 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "train_t2t_transformer_mdsdefault.sh",
+					"file": "/home/jonathan/Repos/#My Memory",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1551,
+						"buffer_size": 5644,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1066,
-								1066
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1350.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "tf/eval_model_tf.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1247,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								742,
+								742
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1568,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								563,
+								563
 							]
 						],
 						"settings":
@@ -442,65 +498,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "train_t2t_transformer_mds_lowerlr.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1568,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1082,
-								1082
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 270.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/home/jonathan/Repos/#My Memory",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5642,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5642,
-								5642
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1170.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
 					"type": "text"
 				}
 			]
