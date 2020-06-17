@@ -43,7 +43,7 @@
 			"file": "/home/jonathan/Repos/#My Memory",
 			"settings":
 			{
-				"buffer_size": 5644,
+				"buffer_size": 6075,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -58,10 +58,11 @@
 			}
 		},
 		{
-			"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
+			"file": "tf/universal_transformer_default.sh",
 			"settings":
 			{
-				"buffer_size": 1568,
+				"buffer_size": 1609,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -411,7 +412,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -420,7 +421,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5644,
+						"buffer_size": 6075,
 						"regions":
 						{
 						},
@@ -468,24 +469,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
-					"semi_transient": true,
+					"file": "tf/universal_transformer_default.sh",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1568,
+						"buffer_size": 1609,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								563,
-								563
+								304,
+								304
 							]
 						],
 						"settings":
@@ -498,7 +499,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
