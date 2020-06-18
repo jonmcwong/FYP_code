@@ -7,7 +7,7 @@ export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=universal_transformer
 export HPARAMS_SET=adaptive_universal_transformer_global_base_tpu
-export RANGED_HPARAMS=adaptive_universal_transformer_base_range_jw
+export RANGED_HPARAMS=adaptive_universal_transformer_base_range_0
 
 export TPU_NAME=actualmathstpu	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
@@ -34,14 +34,14 @@ t2t-trainer \
   --model=$MODEL \
   --hparams_set=$HPARAMS_SET \
   --output_dir=$TRAIN_DIR \
-  --use_tpu=True \
-  --cloud_tpu_name=${TPU_NAME} \
-  --cloud_mlengine \
   --hparams_range=${RANGED_HPARAMS} \
-  --autotune_objective='metrics-translate_ende_wmt32k/neg_log_perplexity' \
+  --cloud_mlengine \
+  --cloud_mlengine_master_type=cloud_tpu \
+  --autotune_objective='metrics-algorithmic_math_deepmind_all/accuracy' \
   --autotune_maximize \
   --autotune_max_trials=100 \
-  --autotune_parallel_trials=3
+  --autotune_parallel_trials=3 \
+  --worker_gpu=0
 
   # --hparams='batch_size=1024', \
   # --hparams='clip_grad_norm=0.1', \
