@@ -1,17 +1,16 @@
 # transformer script with original mds params
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.218.218.146
+export TPU_IP_ADDRESS=10.208.248.250
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=universal_transformer
 export HPARAMS_SET=adaptive_universal_transformer_global_base_tpu
-export RANGED_HPARAMS=adaptive_universal_transformer_base_range_jw
 
-export TPU_NAME=actualmathstpu	# different for each run
+export TPU_NAME=ut-base-test	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL_TAG=range
+export MODEL_TAG=base_test
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
 
 export DATA_DIR=${STORAGE_BUCKET}/t2t-data
@@ -34,17 +33,21 @@ t2t-trainer \
   --model=$MODEL \
   --hparams_set=$HPARAMS_SET \
   --output_dir=$TRAIN_DIR \
-  --hparams_range=${RANGED_HPARAMS} \
-  --use_tpu=True \ 
-  --cloud_mlengine \
-  --cloud_mlengine_master_type=cloud_tpu \
-  --autotune_objective='metrics-algorithmic_math_deepmind_all/loss' \
-  --autotune_maximize=True \
-  --autotune_max_trials=100 \
-  --autotune_parallel_trials=3 \
-  --worker_gpu=0 \
-  --log_step_count_steps=500 \
+  --use_tpu=True \
+  --cloud_tpu_name=${TPU_NAME} \
+  --train_steps=1200000 \
+  --eval_steps=3 \
   --save_checkpoints_secs=1800
+
+  # --cloud_mlengine \
+  # --cloud_mlengine_master_type=cloud_tpu \
+  # --autotune_objective='metrics-algorithmic_math_deepmind_all/loss' \
+  # --autotune_maximize=True \
+  # --autotune_max_trials=100 \
+  # --autotune_parallel_trials=3 \
+  # --worker_gpu=0 \
+  # --log_step_count_steps=500 \
+  # --save_checkpoints_secs=1800
   # --hparams='batch_size=1024', \
   # --hparams='clip_grad_norm=0.1', \
   # --hparams='dropout=0.1', \
