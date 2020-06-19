@@ -1,7 +1,7 @@
 # transformer script with original mds params
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.95.165.146
+export TPU_IP_ADDRESS=10.249.128.34
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
@@ -35,17 +35,8 @@ t2t-trainer \
   --output_dir=$TRAIN_DIR \
   --use_tpu=True \
   --cloud_tpu_name=${TPU_NAME} \
-  --train_steps=1200000 \
+  --train_steps=12000000 \
   --eval_steps=3 \
-  --save_checkpoints_secs=1800 \
-  --hparams='batch_size=1024, \
-  optimizer_adam_beta2=0.995, \
-  optimizer_adam_beta1=0.9, \
-  optimizer_adam_epsilon=1e-9, \
-  clip_grad_norm=0.1 \
-  dropout=0.1 \
-  label_smoothing=0 \
-  optimizer=Adam \
-  learning_rate_schedule="constant" \
-  learning_rate_constant=6e-6 \
-  learning_rate=6e-4'
+  --save_checkpoints_secs=3600 \
+  --hparams='batch_size=1024, optimizer_adam_beta2=0.995, optimizer_adam_beta1=0.9, optimizer_adam_epsilon=1e-9, clip_grad_norm=0.1, dropout=0.1, label_smoothing=0, optimizer=Adam, learning_rate_schedule="constant", learning_rate_constant=6e-6, learning_rate=6e-4'
+
