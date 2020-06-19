@@ -1,3 +1,4 @@
+.
 # for viewing checkpoint progress in tensorboard
 
 export STORAGE_BUCKET=gs://mathsreasoning

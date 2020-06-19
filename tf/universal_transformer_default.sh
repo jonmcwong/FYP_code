@@ -38,11 +38,12 @@ t2t-trainer \
   --use_tpu=True \ 
   --cloud_mlengine \
   --cloud_mlengine_master_type=cloud_tpu \
-  --autotune_objective='metrics-algorithmic_math_deepmind_all/accuracy' \
-  --autotune_maximize \
+  --autotune_objective='metrics-algorithmic_math_deepmind_all/loss' \
+  --autotune_maximize=True \
   --autotune_max_trials=100 \
   --autotune_parallel_trials=3 \
   --worker_gpu=0 \
+  --log_step_count_steps=500 \
   --save_checkpoints_secs=1800
   # --hparams='batch_size=1024', \
   # --hparams='clip_grad_norm=0.1', \
