@@ -2,16 +2,16 @@
 
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.230.208.130
+export TPU_IP_ADDRESS=10.7.185.82
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=transformer
 export HPARAMS=transformer_tpu
 
-export TPU_NAME=transformer-dropout03  # different for each run
+export TPU_NAME=noam-dropout01  # different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL_TAG=base_test-dropout03
+export MODEL_TAG=noam-dropout01
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
 
 export DATA_DIR=${STORAGE_BUCKET}/t2t-data
@@ -35,7 +35,7 @@ t2t-trainer \
   --output_dir=$TRAIN_DIR \
   --use_tpu=True \
   --cloud_tpu_name=${TPU_NAME} \
-  --train_steps=1200000 \
+  --train_steps=700000 \
   --eval_steps=3 \
   --save_checkpoints_secs=1800 \
-  --hparams='clip_grad_norm=0.1, dropout=0.3, label_smoothing=0, optimizer=Adam, learning_rate_schedule=constant, learning_rate_constant=6e-4, learning_rate=6e-4, optimizer_adam_epsilon=1e-9, optimizer_adam_beta1=0.9, optimizer_adam_beta2=0.995'
+  --hparams='dropout=0.1'
