@@ -38,7 +38,7 @@ t2t-trainer \
   --output_dir=$TRAIN_DIR \
   --use_tpu=True \
   --cloud_tpu_name=${TPU_NAME} \
-  --train_steps=700000 \
+  --train_steps=500000 \
   --eval_steps=3 \
   --save_checkpoints_secs=1800 \
   --hparams='act_max_steps=16,act_loss_weight=0.0005'
