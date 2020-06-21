@@ -1,7 +1,7 @@
 # transformer script with original mds params
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.208.248.250
+export TPU_IP_ADDRESS=10.213.119.226
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
@@ -38,7 +38,7 @@ t2t-trainer \
   --train_steps=700000 \
   --eval_steps=3 \
   --save_checkpoints_secs=1800
-
+  --hparams='act_max_steps=16,act_loss_weight=0.0005'
   # --cloud_mlengine \
   # --cloud_mlengine_master_type=cloud_tpu \
   # --autotune_objective='metrics-algorithmic_math_deepmind_all/loss' \
