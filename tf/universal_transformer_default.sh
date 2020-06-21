@@ -2,6 +2,9 @@
 
 # register the tpu you're gonna use
 export TPU_IP_ADDRESS=10.213.119.226
+#export TPU_IP_ADDRESS=10.211.245.50
+#export TPU_IP_ADDRESS=10.31.105.170
+
 export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
@@ -10,7 +13,7 @@ export HPARAMS_SET=adaptive_universal_transformer_base_tpu
 
 export TPU_NAME=ut-test	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL_TAG=base_test
+export MODEL_TAG=base_test_loss_0005
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
 
 export DATA_DIR=${STORAGE_BUCKET}/t2t-data
@@ -37,7 +40,7 @@ t2t-trainer \
   --cloud_tpu_name=${TPU_NAME} \
   --train_steps=700000 \
   --eval_steps=3 \
-  --save_checkpoints_secs=1800
+  --save_checkpoints_secs=1800 \
   --hparams='act_max_steps=16,act_loss_weight=0.0005'
   # --cloud_mlengine \
   # --cloud_mlengine_master_type=cloud_tpu \
