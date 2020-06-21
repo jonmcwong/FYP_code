@@ -40,15 +40,6 @@
 	"buffers":
 	[
 		{
-			"file": "/home/jonathan/Repos/#My Memory",
-			"settings":
-			{
-				"buffer_size": 6075,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "tf/eval_model_tf.sh",
 			"settings":
 			{
@@ -58,10 +49,63 @@
 			}
 		},
 		{
-			"file": "tf/universal_transformer_default.sh",
+			"file": "Universal-Transformer-Pytorch/models/UTransformer.py",
 			"settings":
 			{
-				"buffer_size": 1609,
+				"buffer_size": 15950,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Universal-Transformer-Pytorch/main.py",
+			"settings":
+			{
+				"buffer_size": 6257,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ut_act.py",
+			"settings":
+			{
+				"buffer_size": 13144,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/del_later_mdsdefault.sh",
+			"settings":
+			{
+				"buffer_size": 1544,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
+			"settings":
+			{
+				"buffer_size": 1409,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/train_t2t_transformer_mdsdefault.sh",
+			"settings":
+			{
+				"buffer_size": 1388,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf/train_t2t_transformer_default.sh",
+			"settings":
+			{
+				"buffer_size": 1118,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -246,10 +290,14 @@
 	"expanded_folders":
 	[
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf"
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch/models"
 	],
 	"file_history":
 	[
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch/models/common_layer.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/universal_transformer_default.sh",
+		"/home/jonathan/Repos/#My Memory",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings_lowerlr-2020-06-12/flags.txt",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/events.out.tfevents.1591964895.train-t2t-adamdefault",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/graph.pbtxt",
@@ -259,7 +307,6 @@
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/train_t2t_transformer_mdsdefault.sh",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/generator_utils.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tf/tensor2tensor/tensor2tensor/data_generators/algorithmic_math_deepmind.py",
-		"/home/jonathan/Repos/#My Memory",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/background/maths_qa.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/bibs/sample.bib",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/interimReport/background/background.tex",
@@ -375,13 +422,11 @@
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/mqtt.js",
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/test.json",
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/js/importdata.js",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/lines/bakerloo.html",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/index.html",
-		"/home/jmw16/Downloads/javascript-websockets/websockets-1.htm"
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/Dashboard/lines/bakerloo.html"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -395,6 +440,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"batch",
+			"deepcopy",
+			"layernorm",
+			"note"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -412,39 +461,11 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/jonathan/Repos/#My Memory",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6075,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1350.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "tf/eval_model_tf.sh",
 					"semi_transient": false,
 					"settings":
@@ -469,24 +490,114 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "tf/universal_transformer_default.sh",
+					"buffer": 1,
+					"file": "Universal-Transformer-Pytorch/models/UTransformer.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1609,
+						"buffer_size": 15950,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								304,
-								304
+								3257,
+								3270
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1078.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Universal-Transformer-Pytorch/main.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6257,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5656,
+								5656
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1923.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ut_act.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13144,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10657,
+								10657
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "tf/del_later_mdsdefault.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1544,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								728,
+								728
 							]
 						],
 						"settings":
@@ -499,7 +610,97 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "tf/train_t2t_transformer_mds_lowerlr.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1399,
+								1399
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "tf/train_t2t_transformer_mdsdefault.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1147,
+								1147
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "tf/train_t2t_transformer_default.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1118,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								950,
+								950
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -507,7 +708,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
