@@ -6,9 +6,9 @@ export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=universal_transformer
-export HPARAMS_SET=adaptive_universal_transformer_global_base_tpu
+export HPARAMS_SET=adaptive_universal_transformer_base_tpu
 
-export TPU_NAME=ut-base-test	# different for each run
+export TPU_NAME=ut-test	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
 export MODEL_TAG=base_test
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
@@ -35,7 +35,7 @@ t2t-trainer \
   --output_dir=$TRAIN_DIR \
   --use_tpu=True \
   --cloud_tpu_name=${TPU_NAME} \
-  --train_steps=1200000 \
+  --train_steps=700000 \
   --eval_steps=3 \
   --save_checkpoints_secs=1800
 

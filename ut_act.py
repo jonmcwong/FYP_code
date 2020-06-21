@@ -113,11 +113,11 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 
 # # Training constants ---------------------------------------------------------
 
-NUM_CPU_THREADS = 1             # dataloader
+NUM_CPU_THREADS = 0             # dataloader
 BATCH_SIZE = 128                 # size of every accumulatino
 GRADIENT_ACCUMULATE_EVERY = 8  # number of accumulation
 LEARNING_RATE = 6e-4            # 
-VALIDATE_EVERY  = 20            # number of batches between validations
+VALIDATE_EVERY  = 50            # number of batches between validations
 GENERATE_EVERY  = 200            # number of batechs between sequences generated when training
 GENERATE_LENGTH = 32            # how many characters to generate
 COLLECT_ACTIVATIONS_EVERY = 500
@@ -239,8 +239,8 @@ i = 0
 train_loss_list = []
 val_loss_list = []
 best_val_loss = 10.0
-restore = False
-filename = "./checkpoints/transformer_baseline_continued_06-02-2020_07-50-17/transformer_baseline_continued_06-02-2020_07-50-17_log_0.pth"
+restore = True
+filename = "./checkpoints/universal_transformer_test_06-21-2020_03-53-34_log_0.pth"
 if (restore):
     state = restore_checkpoint(filename=filename, model=model, optimizer=optimizer)
     i = state["batch"]
@@ -313,7 +313,7 @@ while True:
     train_loss_record /= GRADIENT_ACCUMULATE_EVERY
     print("Step ", i, "\t", f'training loss: {train_loss_record}', "\t", datetime.now().time() )
     train_loss_list.append((i, train_loss_record))
-    torch.nn.utils.clip_grad_norm_(model.parameters(), 0.1)
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5)
     optimizer.step()
     optimizer.zero_grad()
     # scheduler.step(train_loss_record)

@@ -8,7 +8,7 @@ from mandubian.math_dataset import (
 def build_UTransformer(num_vocab=VOCAB_SZ + 1, embedding_size=512, 
 	hidden_size=512, num_layers=6, num_heads=8, total_key_depth=64, 
 	total_value_depth=64, filter_size=2048, 
-	enc_seq_max_length=256, dec_seq_max_length=MAX_ANSWER_SZ, 
+	enc_seq_max_length=256, dec_seq_max_length=32, 
 	input_dropout=0.0, layer_dropout=0.0, attention_dropout=0.0, 
 	relu_dropout=0.0, use_mask=False, act=True
 ):
