@@ -20,7 +20,7 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
-
+import time
 
 import mandubian.math_dataset
 from mandubian.math_dataset import MathDatasetManager
@@ -107,7 +107,7 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "universal_transformer_test"
+exp_name = "neural_stack_1e-2"
 # exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -116,9 +116,9 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 # # Training constants ---------------------------------------------------------
 
 NUM_CPU_THREADS = 0             # dataloader
-BATCH_SIZE = 128                 # size of every accumulatino
+BATCH_SIZE = 8                 # size of every accumulatino
 GRADIENT_ACCUMULATE_EVERY = 1  # number of accumulation
-LEARNING_RATE = 5e-2            # 
+LEARNING_RATE = 1e-2            # 
 VALIDATE_EVERY  = 50            # number of batches between validations
 GENERATE_EVERY  = 200            # number of batechs between sequences generated when training
 GENERATE_LENGTH = 32            # how many characters to generate
@@ -224,6 +224,7 @@ gen_loader = cycle(gen_loader)
 model = build_neural_stack(device=device)
 # print(model)
 # model = Recorder(model)
+print("number of parameters: ", sum(p.numel() for p in model.parameters() if p.requires_grad))
 model.to(device)
 
 
@@ -252,7 +253,7 @@ if (restore):
     amp.load_state_dict(state["amp"])
 print(model)
 
-
+last_val_time = time.time() - 30*60
 while True:
     
     # exclude the 0th element as it is BOS
@@ -312,37 +313,38 @@ while True:
     optimizer.zero_grad()
     # scheduler.step(train_loss_record)
 
-    # if i % VALIDATE_EVERY == 0:
-    #     model.eval()
-    #     batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device), next(val_loader))
-    #     gold_as = batch_as[:, 1:]
-    #     # val_batch_qs, val_batch_qs_mask, val_batch_as, val_batch_as_mask = map(lambda x: x.to(device, non_blocking=True), next(val_loader))
-    #     with torch.no_grad():
+    if time.time() - last_val_time > 30*60:
+        last_val_time = time.time()
+        model.eval()
+        batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device), next(val_loader))
+        gold_as = batch_as[:, 1:]
+        # val_batch_qs, val_batch_qs_mask, val_batch_as, val_batch_as_mask = map(lambda x: x.to(device, non_blocking=True), next(val_loader))
+        with torch.no_grad():
 
-    #         # forward
-    #         pred_as = model(batch_qs, batch_as,)
-    #         # pred_as = nn.LogSoftmax(pred_as, dim=1)
+            # forward
+            pred_as = model(batch_qs, batch_as,)
+            # pred_as = nn.LogSoftmax(pred_as, dim=1)
 
-    #         val_loss, n_correct, n_correct_answers = compute_performance(pred_as, gold_as, smoothing=False)
-    #         del n_correct_answers, pred_as
-    #         # val_loss = model(val_batch_qs, val_batch_as, return_loss = True, enc_input_mask = val_batch_qs_mask)
-    #         print(f'validation loss: {val_loss.item()}')
-    #         val_loss_list.append((i, val_loss.item()))
+            val_loss, n_correct, n_correct_answers = compute_performance(pred_as, gold_as, smoothing=False)
+            del n_correct_answers, pred_as
+            # val_loss = model(val_batch_qs, val_batch_as, return_loss = True, enc_input_mask = val_batch_qs_mask)
+            print(f'validation loss: {val_loss.item()}')
+            val_loss_list.append((i, val_loss.item()))
 
-    #         #accuracy
-    #         non_pad_mask = batch_as.ne(Constants.PAD)
-    #         n_char = non_pad_mask.sum().item()
-    #         print("Proportion of correct characters: ", float(n_correct)/float(n_char))
+            #accuracy
+            non_pad_mask = batch_as.ne(Constants.PAD)
+            n_char = non_pad_mask.sum().item()
+            print("Proportion of correct characters: ", float(n_correct)/float(n_char))
 
-    #         # # log model
-    #         print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
-    #         state = build_checkpoint(exp_name, unique_id, "log", model, optimizer, val_loss_list, train_loss_list, i, amp)
-    #         rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_log", path="./checkpoints", nb=1)
+            # # log model
+            print("Checkpointing model to ", f"{exp_name}_{unique_id}_log")
+            state = build_checkpoint(exp_name, unique_id, "log", model, optimizer, val_loss_list, train_loss_list, i, amp)
+            rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_log", path=f"./checkpoints{exp_name}", nb=20)
 
-    #         # if we have a good val model, save it 
-    #         if val_loss.item() < best_val_loss:
-    #             best_val_loss = val_loss.item()
-    #             print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
-    #             state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i, amp)
-    #             rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_best_val", path="./checkpoints", nb=1)    
+            # if we have a good val model, save it 
+            if val_loss.item() < best_val_loss:
+                best_val_loss = val_loss.item()
+                print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
+                state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i, amp)
+                rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_best_val", path=f"./checkpoints{exp_name}", nb=1)    
     i+=1
