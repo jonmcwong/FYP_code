@@ -63,8 +63,8 @@ print(torch.cuda.device_count(), "detected CUDA devices")
 cuda_device = torch.cuda.current_device()
 print("Using CUDA device: ", cuda_device)
 print(torch.cuda.get_device_name(cuda_device))
-# device = torch.device("cuda")
-device = torch.device("cpu")
+device = torch.device("cuda")
+# device = torch.device("cpu")
 
 # # Initialize Math Dataset Manager
 
@@ -107,8 +107,8 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
-exp_name = "test_beam"
-# exp_name = "test"
+# exp_name = "test_beam"
+exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
 base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
