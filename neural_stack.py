@@ -107,7 +107,11 @@ mdsmgr = MathDatasetManager(
 
 # # Experiment ID --------------------------------------------------------------
 
+<<<<<<< HEAD
 exp_name = "neural_stack_1e-4"
+=======
+exp_name = "neural_stack_1e-2"
+>>>>>>> 679b876b21c8e4f3b6fc512a0241f4c90d97552b
 # exp_name = "test"
 now = datetime.now()
 unique_id = now.strftime("%m-%d-%Y_%H-%M-%S")
@@ -116,9 +120,15 @@ base_dir = "/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/"
 # # Training constants ---------------------------------------------------------
 
 NUM_CPU_THREADS = 0             # dataloader
+<<<<<<< HEAD
 BATCH_SIZE = 16                 # size of every accumulatino
 GRADIENT_ACCUMULATE_EVERY = 1  # number of accumulation
 LEARNING_RATE = 1e-4            # 
+=======
+BATCH_SIZE = 8                 # size of every accumulatino
+GRADIENT_ACCUMULATE_EVERY = 1  # number of accumulation
+LEARNING_RATE = 1e-2            # 
+>>>>>>> 679b876b21c8e4f3b6fc512a0241f4c90d97552b
 VALIDATE_EVERY  = 50            # number of batches between validations
 GENERATE_EVERY  = 200            # number of batechs between sequences generated when training
 GENERATE_LENGTH = 32            # how many characters to generate
@@ -342,10 +352,13 @@ while True:
             state = build_checkpoint(exp_name, unique_id, "log", model, optimizer, val_loss_list, train_loss_list, i, amp)
             rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_log", path=f"./checkpoints/{exp_name}", nb=20)
 
+
             # if we have a good val model, save it 
             if val_loss.item() < best_val_loss:
                 best_val_loss = val_loss.item()
                 print("Best validation! Checkpointing model to ", f"{exp_name}_{unique_id}_best_val")
                 state = build_checkpoint(exp_name, unique_id, "best_val", model, optimizer, val_loss_list, train_loss_list, i, amp)
                 rotating_save_checkpoint(state, prefix=f"{exp_name}_{unique_id}_best_val", path=f"./checkpoints/{exp_name}", nb=1)    
+
+
     i+=1
