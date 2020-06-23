@@ -40,103 +40,55 @@
 	"buffers":
 	[
 		{
-			"file": "tf/eval_model_tf.sh",
+			"file": "mandubian/loss.py",
 			"settings":
 			{
-				"buffer_size": 1247,
+				"buffer_size": 2376,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "mandubian/model_process.py",
+			"file": "neural_stack.py",
 			"settings":
 			{
-				"buffer_size": 11021,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "ut_pytorch/utils.py",
-			"settings":
-			{
-				"buffer_size": 987,
+				"buffer_size": 13523,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "ut_pytorch/models/UTransformer.py",
+			"file": "nnstack/utils.py",
 			"settings":
 			{
-				"buffer_size": 15913,
+				"buffer_size": 527,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "ut_pytorch/models/common_layer.py",
+			"file": "nnstack/encoder_decoder.py",
 			"settings":
 			{
-				"buffer_size": 17515,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "ut_act.py",
-			"settings":
-			{
-				"buffer_size": 13551,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "tf/tensorboard.sh",
-			"settings":
-			{
-				"buffer_size": 481,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "tpu_ut_act.py",
-			"settings":
-			{
-				"buffer_size": 11606,
+				"buffer_size": 7027,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "tf/universal_transformer_default.sh",
+			"file": "nnstack/main.py",
 			"settings":
 			{
-				"buffer_size": 1968,
-				"encoding": "UTF-8",
+				"buffer_size": 2888,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "mandubian/transformer/Models.py",
+			"file": "nnstack/nnstack.py",
 			"settings":
 			{
-				"buffer_size": 17434,
+				"buffer_size": 4453,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "mandubian/transformer/Layers.py",
-			"settings":
-			{
-				"buffer_size": 1886,
 				"line_ending": "Unix"
 			}
 		}
@@ -320,19 +272,34 @@
 	"expanded_folders":
 	[
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/models"
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/checkpoints"
 	],
 	"file_history":
 	[
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/neural_stack.py",
+		"/home/jonathan/Downloads/t2t-specific-data_algorithmic_math_deepmind_all-extra_mul_big-00000-of-00001 (1)",
+		"/home/jonathan/Downloads/t2t_train_algorithmic_math_deepmind_all_transformer-noam-dropout01-2020-06-20_eval_eval_events.out.tfevents.1592689765.noam-dropout01",
+		"/home/jonathan/Downloads/t2t-specific-data_algorithmic_math_deepmind_all-extra_mul_big-00000-of-00001",
+		"/home/jonathan/Downloads/t2t-specific-data_algorithmic_math_deepmind_all-inter_mul-00000-of-00001",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/checkpoints/universal_transformer_test_06-22-2020_21-56-57_log_0.pth",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/loss.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/nnstack/encoder_decoder.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/transformer/Models.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/transformer/Layers.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/universal_transformer_default.sh",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/tensorboard.sh",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/models/common_layer.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/models/UTransformer.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/utils.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/model_process.py",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/eval_model_tf.sh",
+		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tpu_ut_act.py",
+		"/home/jonathan/Repos/#My Memory",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_act_tpu.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/lucidrains_reformer/reformer_pytorch/reformer_enc_dec.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch/models/common_layer.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch/models/UTransformer.py",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/transformer/Models.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/train_t2t_transformer_default.sh",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/models/UTransformer.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/utils.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_pytorch/__init__.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/ut_act.py",
@@ -341,11 +308,7 @@
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/train_t2t_transformer_mds_lowerlr.sh",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/del_later_mdsdefault.sh",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/Universal-Transformer-Pytorch/main.py",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/loss.py",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/mandubian/transformer/Layers.py",
 		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/lucidrains_reformer/reformer_pytorch/reversible.py",
-		"/home/jonathan/Repos/final_year_at_ic/awesome_project/code/tests/tf/universal_transformer_default.sh",
-		"/home/jonathan/Repos/#My Memory",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings_lowerlr-2020-06-12/flags.txt",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/events.out.tfevents.1591964895.train-t2t-adamdefault",
 		"/media/jonathan/bigolbackup/t2t_train/algorithmic_math_deepmind_all/transformer-mds_paper_settings-2020-06-12/graph.pbtxt",
@@ -440,20 +403,7 @@
 		"/home/jmw16/Documents/Repos/Websites/Crazy taxi without  ads/A game.html",
 		"/home/jmw16/Documents/Repos/DeepLearning/latex/MishchukMRM17.bib",
 		"/home/jmw16/Documents/Repos/EmbeddedSystems/Music/main.cpp",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/blind.cpp",
-		"/home/jmw16/Downloads/stateClass.h",
-		"/home/jmw16/Downloads/Untitled-1.c",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/acc.cpp",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/torque experiment.cpp",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/test2.cpp",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/acc.js",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/test.cpp",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/communication.js",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/bakerloo.html",
-		"/usr/share/applications/matlab.desktop",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/tflapi.js",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/NEW Dashboard/importdata.js",
-		"/home/jmw16/Documents/Repos/EmbeddedSystems/Motor/motor.cpp"
+		"/home/jmw16/Documents/Repos/EmbeddedSystems/blind.cpp"
 	],
 	"find":
 	{
@@ -472,6 +422,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cuda",
+			"torch",
+			"vocab_size",
+			"encoder",
+			"device",
+			"Controller",
+			"d_model",
+			"input",
+			"initial",
+			"init",
+			"embed",
+			"init",
+			"add_position_timing_signal",
 			"batchnorm",
 			"bn",
 			"batch_norm",
@@ -505,299 +468,90 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "tf/eval_model_tf.sh",
+					"file": "mandubian/loss.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1247,
+						"buffer_size": 2376,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								742,
-								742
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "mandubian/model_process.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11021,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10070,
-								10070
+								1352,
+								1352
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3965.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "ut_pytorch/utils.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 987,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								377,
-								377
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "ut_pytorch/models/UTransformer.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15913,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3129,
-								3129
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 782.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "ut_pytorch/models/common_layer.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17515,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9561,
-								9561
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5353.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "ut_act.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13551,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8586,
-								8586
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3942.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "tf/tensorboard.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 481,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								315,
-								315
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 8,
-					"file": "tpu_ut_act.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11606,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6138,
-								6138
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3078.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "tf/universal_transformer_default.sh",
+					"buffer": 1,
+					"file": "neural_stack.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1968,
+						"buffer_size": 13523,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3740,
+								3740
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax",
-							"tab_size": 2,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1603.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "nnstack/utils.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 527,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								343,
+								343
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Python/Python.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -807,63 +561,99 @@
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "mandubian/transformer/Models.py",
+					"buffer": 3,
+					"file": "nnstack/encoder_decoder.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17434,
+						"buffer_size": 7027,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13238,
-								13238
+								3776,
+								3776
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3444.0,
+						"translation.y": 1404.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "mandubian/transformer/Layers.py",
+					"buffer": 4,
+					"file": "nnstack/main.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1886,
+						"buffer_size": 2888,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								905,
-								905
+								1868,
+								1868
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 966.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"file": "nnstack/nnstack.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4453,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2197,
+								2197
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1296.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -897,7 +687,7 @@
 		"cols":
 		[
 			0.0,
-			0.470012314698,
+			0.524422350849,
 			1.0
 		],
 		"rows":

@@ -3,7 +3,7 @@
 export STORAGE_BUCKET=gs://mathsreasoning
 export PROBLEM=algorithmic_math_deepmind_all
 declare -i PORT=2222
-for folder in universal_transformer-base_test-loss-0001-2020-06-21/ universal_transformer-base_test-loss-001-2020-06-21/ universal_transformer-base_test_loss_0005-2020-06-21/
+for folder in universal_transformer-global-2020-06-23/ universal_transformer-global-lowerlr0-02-2020-06-23/ universal_transformer-lowerlr0-02-2020-06-23/ universal_transformer-ut-lowerlr0-002-2020-06-23/
 do
 	export TRAIN_DIR=${STORAGE_BUCKET}/t2t_train/$PROBLEM/$folder
 	tensorboard --logdir=${TRAIN_DIR}  --host localhost --port $PORT &
