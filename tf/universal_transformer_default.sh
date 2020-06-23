@@ -1,7 +1,7 @@
 # transformer script with original mds params
 
 # register the tpu you're gonna use
-export TPU_IP_ADDRESS=10.213.119.226
+export TPU_IP_ADDRESS=10.40.181.234
 #export TPU_IP_ADDRESS=10.211.245.50
 #export TPU_IP_ADDRESS=10.31.105.170
 
@@ -9,17 +9,26 @@ export XRT_TPU_CONFIG="tpu_worker;0;$TPU_IP_ADDRESS:8470"
 
 export PROBLEM=algorithmic_math_deepmind_all
 export MODEL=universal_transformer
-export HPARAMS_SET=adaptive_universal_transformer_base_tpu
+export HPARAMS_SET=adaptive_universal_transformer_global_base_tpu
 
-export TPU_NAME=ut-test	# different for each run
+export TPU_NAME=ut-global	# different for each run
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL_TAG=base_test_loss_0005
+export MODEL_TAG=global-mdspaper-settings-0-001
 export MODEL_TAG=${MODEL_TAG}-$(date +%F)
 
 export DATA_DIR=${STORAGE_BUCKET}/t2t-data
 export TMP_DIR=${STORAGE_BUCKET}/t2t_datagen
 export TRAIN_DIR=${STORAGE_BUCKET}/t2t_train/$PROBLEM/$MODEL-$MODEL_TAG
 
+export OVERRIDE="act_max_steps=16,\
+act_loss_weight=0.001,\
+learning_rate=6e-4,\
+learning_rate_schedule=constant,\
+clip_grad_norm=0.1,\
+optimizer=Adam,\
+optimizer_adam_beta1=0.9,\
+optimizer_adam_beta2=0.995,\
+optimizer_adam_epsilon=1e-9"
 # all the correct directories already exist. no need to mkdir
 
 # Generate data
@@ -41,7 +50,7 @@ t2t-trainer \
   --train_steps=500000 \
   --eval_steps=3 \
   --save_checkpoints_secs=1800 \
-  --hparams='act_max_steps=16,act_loss_weight=0.0005'
+  --hparams=${OVERRIDE}
   # --cloud_mlengine \
   # --cloud_mlengine_master_type=cloud_tpu \
   # --autotune_objective='metrics-algorithmic_math_deepmind_all/loss' \
