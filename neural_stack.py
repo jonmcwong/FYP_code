@@ -64,7 +64,7 @@ cuda_device = torch.cuda.current_device()
 print("Using CUDA device: ", cuda_device)
 print(torch.cuda.get_device_name(cuda_device))
 device = torch.device("cuda")
-device = torch.device("cpu")
+# device = torch.device("cpu")
 
 # # Initialize Math Dataset Manager
 
@@ -234,7 +234,7 @@ optimizer = optim.AdamW(model.parameters(), lr=LEARNING_RATE, betas=(0.9, 0.995)
 # optimizer = optim.RMSprop(model.parameters(), lr=LEARNING_RATE, eps=1e-9)
 
 # # mixed precision
-if device == "cuda":
+if device.type == "cuda":
     model, optimizer = amp.initialize(model, optimizer, opt_level='O1')
 
 # # Train
@@ -295,7 +295,7 @@ while True:
         train_loss, n_correct, n_correct_answers = compute_performance(pred_as, gold_as, smoothing=False)    
         # train_loss = model(batch_qs, batch_as, return_loss = True, enc_input_mask = batch_qs_mask)
         del batch_qs, batch_qs_pos, batch_as, batch_as_pos, gold_as, n_correct_answers, n_correct
-        if device == "cuda":
+        if device.type == "cuda":
             with amp.scale_loss(train_loss, optimizer) as scaled_loss:
                 scaled_loss.backward()
         else:
@@ -305,7 +305,7 @@ while True:
         del train_loss
 
 #     if i % GRADIENT_ACCUMULATE_EVERY == 0:
-    print("Step ", i, "\t", f'training loss: {train_loss_record}', "\t", datetime.now().time() )
+    
     train_loss_record /= GRADIENT_ACCUMULATE_EVERY
     train_loss_list.append((i, train_loss_record))
     torch.nn.utils.clip_grad_norm_(model.parameters(), 20)
@@ -315,6 +315,7 @@ while True:
 
     if time.time() - last_val_time > 30*60:
         last_val_time = time.time()
+        print("Step ", i, "\t", f'training loss: {train_loss_record}', "\t", datetime.now().time())
         model.eval()
         batch_qs, batch_qs_pos, batch_as, batch_as_pos = map(lambda x: x.to(device), next(val_loader))
         gold_as = batch_as[:, 1:]
