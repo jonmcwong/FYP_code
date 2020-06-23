@@ -146,21 +146,21 @@ for module in modules:
 	# # data for spceific module
 	print("creating subsets")
 
-	train_easy_ds = data.Subset(train_ds, indicies_data["train-"+module+"-train-easy"][0:10000])
-	val_easy_ds  = data.Subset(val_ds, indicies_data["val-"+ module+"-train-easy"][0:10000])
+	train_easy_ds = data.Subset(train_ds, indicies_data["train-"+module+"-train-easy"][0:100])
+	val_easy_ds  = data.Subset(val_ds, indicies_data["val-"+ module+"-train-easy"][0:100])
 
 
 	# training_data = mdsmgr.build_dataset_from_module('arithmetic', 'add_sub_multiple', 'train-easy')
-	training_data_medium = mdsmgr.build_dataset_from_module('arithmetic',module,'train-medium', max_elements= 10000) # for now
-	training_data_hard = mdsmgr.build_dataset_from_module('arithmetic',module,'train-hard', max_elements= 10000) # for now
+	training_data_medium = mdsmgr.build_dataset_from_module('arithmetic',module,'train-medium', max_elements= 100) # for now
+	training_data_hard = mdsmgr.build_dataset_from_module('arithmetic',module,'train-hard', max_elements= 100) # for now
 
-	testing_data_interpolate = mdsmgr.build_dataset_from_module('arithmetic',module,'interpolate', max_elements= 10000)
+	testing_data_interpolate = mdsmgr.build_dataset_from_module('arithmetic',module,'interpolate', max_elements= 100)
 
 	if module in ["mixed", "mul_div_multiple", "add_sub_multiple"]:
 
-		testing_data_extrapolate = mdsmgr.build_dataset_from_module('arithmetic',f'{module}_longer','extrapolate', max_elements= 10000)
+		testing_data_extrapolate = mdsmgr.build_dataset_from_module('arithmetic',f'{module}_longer','extrapolate', max_elements= 100)
 	else:
-		testing_data_extrapolate = mdsmgr.build_dataset_from_module('arithmetic',f'{module}_big','extrapolate', max_elements= 10000)
+		testing_data_extrapolate = mdsmgr.build_dataset_from_module('arithmetic',f'{module}_big','extrapolate', max_elements= 100)
 
 	# interpolate_data = mdsmgr.build_dataset_from_module('arithmetic', 'add_sub_multiple', 'interpolate')
 	# extrapolate_data = mdsmgr.build_dataset_from_module('arithmetic', 'add_sub_multiple', 'extrapolate')
