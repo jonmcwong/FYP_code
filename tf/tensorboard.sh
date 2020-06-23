@@ -1,10 +1,11 @@
-.
 # for viewing checkpoint progress in tensorboard
 
 export STORAGE_BUCKET=gs://mathsreasoning
-export MODEL=universal_transformer
-export MODEL_TAG=range-2020-06-18
 export PROBLEM=algorithmic_math_deepmind_all
-
-export TRAIN_DIR=${STORAGE_BUCKET}/t2t_train/$PROBLEM/$MODEL-$MODEL_TAG
-tensorboard --logdir=${TRAIN_DIR}
+declare -i PORT=2222
+for folder in universal_transformer-base_test-loss-0001-2020-06-21/ universal_transformer-base_test-loss-001-2020-06-21/ universal_transformer-base_test_loss_0005-2020-06-21/
+do
+	export TRAIN_DIR=${STORAGE_BUCKET}/t2t_train/$PROBLEM/$folder
+	tensorboard --logdir=${TRAIN_DIR}  --host localhost --port $PORT &
+	PORT+=1
+done

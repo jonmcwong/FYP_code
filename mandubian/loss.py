@@ -38,7 +38,7 @@ def compute_performance(pred, gold, smoothing, log=False):
 
 def compute_loss(pred, gold, smoothing):
     gold = gold.contiguous().view(-1)
-    pred = pred.view(-1, pred.size(2)) 
+    pred = pred.reshape(-1, pred.size(2)) 
 
     # print("In compute_loss: size of gold is: ", gold.size())
     # print('Size of pred is: ', pred.size())
