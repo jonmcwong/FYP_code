@@ -6,9 +6,12 @@ from nnstack.nnstack import Controller
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import decode_beam
 from mandubian.transformer import Constants as Constants
 
-
+# override decode_beam tokens to match the mandubian Constants
+decode_beam.SOS_token = Constants.BOS_WORD
+decode_beam.EOS_token = Constants.EOS_WORD
 # Define Seq2Seq Models
 class Encoder(nn.Module):
 	def __init__(self, n_src_vocab, input_dim, hid_dim, n_layers, device, type='RNN',mem_width=128):
@@ -114,60 +117,84 @@ class Seq2seq(nn.Module):
 
 		#sharing weights between the decoder embedding and the encoder embedding
 
-	def forward(self, src, tgt, teacher_force = 0.75, return_emb=False):
+	def decoder_beam_search_decorator(func): # takes shape [batch_size, seq_len]
+		# projects out the probabilities for beam-searching between each iteration
+		def new_decoder(input_probs, hidden, encoder_outputs=None):
+			# input_probs has shape [1, batch_size]
+
+
+			# turn regenerated probabilities (from the beam search) into states
+			input_state = self.decoder_emb(torch.transpose(input_probs))
+
+			# iterate. E.g. self.decoder(input_state, hidden)
+			output, hidden = func(input_state, decoder_hidden)
+
+			# turn back into probabilities for the next beam search
+			output_probs = torch.transpose(self.tgt_word_prj(output), 0, 1)
+			return output_probs, hidden
+
+		return new_decoder
+
+	def forward(self, src, tgt, teacher_force = 0.75, return_emb=False, eval_mode=False):
+		decode_beam.decoder = self.decoder_beam_search_decorator(self.decoder)
 		del return_emb
 		# BATCH SIZE = 1
 		# src = [batch, seq_len]
 		# tgt = [batch, seq_len]
+		if not eval_mode:
+			# run as normal (without projecting onto probabilites during the training)
 
-		# leaving out ending token for tgt sequence so dims match
-		tgt = tgt[:, :-1]
-
-		
-		batch_size, seq_len = tgt.shape[0], tgt.shape[1]
-		
-		# tgt_vocab_size = self.decoder.output_dim
-		
-		# tensor to store outputs&
-		output_embs = torch.zeros(seq_len, batch_size, self.d_word_vec).to(self.device)
-		
-		#last hidden state of the encoder is used as the initial hidden state of the decoder
-		hidden = self.encoder(src) # lstm takes size [seq_len, batch_size, d_word_vec]
-		
-		#first input to the decoder is the <sos> tokens
-		tgt = torch.transpose(tgt, 0, 1) # [seq_len, batch_size]
-		input_emb = self.decoder_emb(tgt[0:1])  # [1, batchs_size, d_word_vec]
-		
-		# produce values from decoder one by one
-		tf = torch.full((seq_len,1),teacher_force)
-		tf = torch.bernoulli(tf).to(self.device)
-		for t in range(1, seq_len):
-			
-			#insert input_emb token embedding, previous hidden and previous cell states
-			#receive output tensor (predictions) and new hidden and cell states
-			output, hidden = self.decoder(input_emb, hidden)
-			# print("decoder output has size: ", output.size()) # should be [batch_size, d_word_vec]
-			
-			#saving embedding from decdoer
-			output_embs[t] = output
-
-			# IN EVAL PHASE, stop training / prediction if top1 is EOS
-			# if self.training == False:
-
-			# 	#get the highest predicted token from our predictions
-			# 	top1 = self.tgt_word_prj(output).argmax(1) #may need to unsqueeze
-				
-			# 	if top1==Constants.EOS: break
-			
-			# 	top1 = torch.Tensor(top1)
-			# 	top1 = top1.unsqueeze(0)
-			
-			input_emb = tf[t]*self.decoder_emb(tgt[t:t+1]) + (1-tf[t])*output # may need to slice instead
+			# leaving out ending token for tgt sequence so dims match
+			tgt = tgt[:, :-1]
 
 			
-		# project outputs
+			batch_size, seq_len = tgt.shape[0], tgt.shape[1]
 
-		return torch.transpose(self.tgt_word_prj(output_embs), 0, 1) # return [batch_size, seq_len, tgt_vocab_size]
+			# tgt_vocab_size = self.decoder.output_dim
+
+			# tensor to store outputs&
+			output_embs = torch.zeros(seq_len, batch_size, self.d_word_vec).to(self.device)
+
+			#last hidden state of the encoder is used as the initial hidden state of the decoder
+			hidden = self.encoder(src) # lstm takes size [seq_len, batch_size, d_word_vec]
+
+			#first input to the decoder is the <sos> tokens
+			tgt = torch.transpose(tgt, 0, 1) # [seq_len, batch_size]
+			input_emb = self.decoder_emb(tgt[0:1])  # [1, batchs_size, d_word_vec]
+
+			# produce values from decoder one by one
+			tf = torch.full((seq_len,1),teacher_force)
+			tf = torch.bernoulli(tf).to(self.device)
+			for t in range(1, seq_len):
+
+				#insert input_emb token embedding, previous hidden and previous cell states
+				#receive output tensor (predictions) and new hidden and cell states
+				output, hidden = self.decoder(input_emb, hidden)
+				# print("decoder output has size: ", output.size()) # should be [batch_size, d_word_vec]
+
+				#saving embedding from decoder
+				output_embs[t] = output
+
+				# IN EVAL PHASE, stop training / prediction if top1 is EOS
+				# if self.training == False:
+
+				# 	#get the highest predicted token from our predictions
+				# 	top1 = self.tgt_word_prj(output).argmax(1) #may need to unsqueeze
+
+				# 	if top1==Constants.EOS: break
+
+				# 	top1 = torch.Tensor(top1)
+				# 	top1 = top1.unsqueeze(0)
+
+				input_emb = tf[t]*self.decoder_emb(tgt[t:t+1]) + (1-tf[t])*output # may need to slice instead
+
+			# project outputs
+			return torch.transpose(self.tgt_word_prj(output_embs), 0, 1) # return [batch_size, seq_len, tgt_vocab_size]
+		else:
+			# run in eval mode. See decoder_beam_search_decorator() above
+			return decode_beam.beam_decode(target_tensor=tgt, decoder_hiddens=src, encoder_outputs=None)
+
+
 
 
 ### Define Training & Evaluation Process
